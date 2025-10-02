@@ -1,0 +1,13 @@
+{
+  "name": "react-component-library",
+  "$schema": "node_modules/nx/schemas/project-schema.json",
+  "targets": {
+    "local-registry": {
+      "options": {
+        "port": 4873,
+
+        "storage": "tmp/local-registry/storage"
+      }
+    }
+  }
+}
