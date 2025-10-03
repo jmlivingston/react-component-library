@@ -1,5 +1,5 @@
 import react from '@vitejs/plugin-react';
-import { copyFileSync } from 'fs';
+import { copyFileSync, readFileSync } from 'fs';
 import { dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -46,6 +46,11 @@ export function createCopyPackageJsonPlugin(componentName, packageDir) {
 export function createComponentBuildConfig(componentName, packageDir) {
   const __dirname = dirname(fileURLToPath(packageDir));
 
+  // Read peerDependencies from package.json
+  const packageJsonPath = resolve(__dirname, 'package.json');
+  const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
+  const peerDeps = Object.keys(packageJson.peerDependencies || {});
+
   return {
     sourcemap: true,
     lib: {
@@ -55,7 +60,7 @@ export function createComponentBuildConfig(componentName, packageDir) {
       formats: ['es', 'cjs'],
     },
     rollupOptions: {
-      external: ['react', 'react-dom'],
+      external: peerDeps,
       output: {
         globals: {
           react: 'React',
