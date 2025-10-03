@@ -9,14 +9,14 @@ const __dirname = dirname(__filename);
  * Get all component packages dynamically from the packages directory
  * Returns components with their original casing from the directory names
  */
-export function getComponents() {
+export const getComponents = () => {
   const packagesDir = join(__dirname, '../packages');
   return readdirSync(packagesDir).filter((dir) => {
     const fullPath = join(packagesDir, dir);
     // Filter out non-directories
     return statSync(fullPath).isDirectory() && !dir.startsWith('.');
   });
-}
+};
 
 /**
  * Find a component by name (case-insensitive)
@@ -24,7 +24,7 @@ export function getComponents() {
  * @param {string} input - The user input component name
  * @returns {string|null} The correctly cased component name or null
  */
-export function findComponent(input) {
+export const findComponent = (input) => {
   const components = getComponents();
   return components.find((component) => component.toLowerCase() === input.toLowerCase()) || null;
-}
+};

@@ -4,7 +4,7 @@ import { execSync } from 'child_process';
 import inquirer from 'inquirer';
 import { findComponent, getComponents } from './utils.js';
 
-async function main() {
+const main = async () => {
   const components = getComponents();
   let component = process.argv[2];
 
@@ -55,7 +55,7 @@ async function main() {
       process.exit(1);
     }
   }
-}
+};
 
 main().catch((error) => {
   console.error(error);

@@ -25,7 +25,7 @@ export const cssConfig = {
  * @param {string} packageDir - Directory path of the package
  * @returns {Object} Vite plugin
  */
-export function createCopyPackageJsonPlugin(componentName, packageDir) {
+export const createCopyPackageJsonPlugin = (componentName, packageDir) => {
   return {
     name: 'copy-package-json',
     closeBundle() {
@@ -35,7 +35,7 @@ export function createCopyPackageJsonPlugin(componentName, packageDir) {
       );
     },
   };
-}
+};
 
 /**
  * Create a library build configuration for a component
@@ -43,7 +43,7 @@ export function createCopyPackageJsonPlugin(componentName, packageDir) {
  * @param {string} packageDir - Directory path of the package (use import.meta.url)
  * @returns {Object} Vite build configuration
  */
-export function createComponentBuildConfig(componentName, packageDir) {
+export const createComponentBuildConfig = (componentName, packageDir) => {
   const __dirname = dirname(fileURLToPath(packageDir));
 
   // Read peerDependencies from package.json
@@ -71,7 +71,7 @@ export function createComponentBuildConfig(componentName, packageDir) {
     outDir: `../../dist/packages/${componentName}`,
     emptyOutDir: true,
   };
-}
+};
 
 /**
  * Create a complete Vite config for a component package
@@ -79,7 +79,7 @@ export function createComponentBuildConfig(componentName, packageDir) {
  * @param {string} packageUrl - import.meta.url of the calling vite.config.js
  * @returns {Object} Complete Vite configuration
  */
-export function createComponentViteConfig(componentName, packageUrl) {
+export const createComponentViteConfig = (componentName, packageUrl) => {
   const __dirname = dirname(fileURLToPath(packageUrl));
 
   return {
@@ -87,4 +87,4 @@ export function createComponentViteConfig(componentName, packageUrl) {
     build: createComponentBuildConfig(componentName, packageUrl),
     css: cssConfig,
   };
-}
+};

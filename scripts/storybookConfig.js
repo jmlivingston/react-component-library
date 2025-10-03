@@ -8,7 +8,7 @@ import { dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
 
 // Generate aliases for all component packages
-function generatePackageAliases() {
+const generatePackageAliases = () => {
   const scriptDir = dirname(fileURLToPath(import.meta.url));
   const packagesDir = resolve(scriptDir, '../packages');
   const packages = readdirSync(packagesDir, { withFileTypes: true }).filter(
@@ -27,7 +27,7 @@ function generatePackageAliases() {
   }
 
   return aliases;
-}
+};
 
 export const sharedStorybookConfig = {
   addons: ['@storybook/addon-docs', '@storybook/addon-links'],
@@ -62,9 +62,9 @@ export const sharedStorybookConfig = {
  * @param {string[]} stories - Array of story glob patterns
  * @returns {Object} Storybook configuration
  */
-export function createComponentStorybookConfig(stories) {
+export const createComponentStorybookConfig = (stories) => {
   return {
     stories,
     ...sharedStorybookConfig,
   };
-}
+};
