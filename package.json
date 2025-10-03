@@ -7,7 +7,9 @@
   "scripts": {
     "storybook": "node scripts/storybook",
     "build": "node scripts/build",
-    "prettier": "prettier --write \"**/*.{js,json,md,scss}\""
+    "prettier": "prettier --write \"**/*.{js,json,md,scss}\"",
+    "clear-cache": "nx reset",
+    "create-package": "plop --plopfile scripts/package-templates/plopfile.js"
   },
   "keywords": [],
   "author": "",
@@ -29,6 +31,7 @@
     "inquirer": "^12.9.6",
     "jsdom": "~22.1.0",
     "nx": "21.6.3",
+    "plop": "^4.0.4",
     "prettier": "^2.6.2",
     "sass-embedded": "^1.93.2",
     "storybook": "9.1.10",
