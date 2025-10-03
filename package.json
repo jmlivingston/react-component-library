@@ -9,7 +9,9 @@
     "build": "node scripts/build",
     "prettier": "prettier --write \"**/*.{js,json,md,scss}\"",
     "clear-cache": "nx reset",
-    "create-package": "plop --plopfile scripts/package-templates/plopfile.js"
+    "create-package": "plop --plopfile scripts/package-templates/plopfile.js",
+    "link-all": "node scripts/link.js link",
+    "unlink-all": "node scripts/link.js unlink"
   },
   "keywords": [],
   "author": "",
