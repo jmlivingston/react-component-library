@@ -50,7 +50,7 @@ export const createComponentBuildConfig = (componentName, packageDir) => {
   return {
     sourcemap: true,
     lib: {
-      entry: resolve(dirName, 'src/index.js'),
+      entry: resolve(dirName, 'src/index'),
       name: componentName,
       fileName: (format) => `index.${format === 'es' ? 'mjs' : 'js'}`,
       formats: ['es', 'cjs'],

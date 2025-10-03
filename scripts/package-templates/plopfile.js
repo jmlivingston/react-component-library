@@ -1,4 +1,4 @@
-export default function (plop) {
+const create = (plop) => {
   plop.setHelper('pascalCase', (text) => {
     return text.charAt(0).toUpperCase() + text.slice(1);
   });
@@ -19,7 +19,9 @@ export default function (plop) {
         name: 'name',
         message: 'Component name (PascalCase):',
         validate: (value) => {
-          if (!value) { return 'Component name is required'; }
+          if (!value) {
+            return 'Component name is required';
+          }
           if (!/^[A-Z][a-zA-Z0-9]*$/.test(value)) {
             return 'Component name must be in PascalCase (e.g., Button, Card, MyComponent)';
           }
@@ -40,7 +42,7 @@ export default function (plop) {
       },
       {
         type: 'add',
-        path: '../../packages/{{pascalCase name}}/vite.config.js',
+        path: '../../packages/{{pascalCase name}}/vite.config',
         templateFile: 'plop/vite.config.js.hbs',
       },
       {
@@ -65,7 +67,7 @@ export default function (plop) {
       },
       {
         type: 'add',
-        path: '../../packages/{{pascalCase name}}/src/index.js',
+        path: '../../packages/{{pascalCase name}}/src/index',
         templateFile: 'plop/index.js.hbs',
       },
       {
@@ -75,4 +77,6 @@ export default function (plop) {
       },
     ],
   });
-}
+};
+
+export default create;
