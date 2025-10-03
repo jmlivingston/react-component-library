@@ -1,4 +1,9 @@
 import { defineConfig } from 'vite';
 import { createComponentViteConfig } from '../../scripts/viteConfig.js';
 
-export default defineConfig(createComponentViteConfig('Foo', import.meta.url));
+const config = createComponentViteConfig('Foo', import.meta.url);
+
+// Add Button as an external dependency
+config.build.rollupOptions.external.push('@react-component-library/button');
+
+export default defineConfig(config);
