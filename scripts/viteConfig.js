@@ -1,7 +1,30 @@
 import react from '@vitejs/plugin-react';
-import { copyFileSync, readFileSync } from 'fs';
+import { copyFileSync, readdirSync, readFileSync } from 'fs';
 import { dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
+
+/**
+ * Generate Vite aliases for all component packages
+ * Returns an object mapping package names to their src/index.js entry
+ */
+export const generatePackageAliases = () => {
+  const scriptDir = dirname(fileURLToPath(import.meta.url));
+  const packagesDir = resolve(scriptDir, '../packages');
+  const packages = readdirSync(packagesDir, { withFileTypes: true });
+
+  return packages.reduce((aliases, dirent) => {
+    if (!dirent.isDirectory() || dirent.name === 'Storybook') {
+      return aliases;
+    }
+    const packageJsonPath = resolve(packagesDir, dirent.name, 'package.json');
+    const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
+    const indexPath = resolve(packagesDir, dirent.name, 'src');
+    return {
+      ...aliases,
+      [packageJson.name]: indexPath,
+    };
+  }, {});
+};
 
 /**
  * Shared React plugin configuration
@@ -82,5 +105,13 @@ export const createComponentViteConfig = (componentName, packageUrl) => {
     plugins: [reactPlugin, createCopyPackageJsonPlugin(dirName)],
     build: createComponentBuildConfig(componentName, packageUrl),
     css: cssConfig,
+    test: {
+      globals: true,
+      environment: 'jsdom',
+      setupFiles: ['../../vitest.setup.js'],
+    },
+    resolve: {
+      alias: generatePackageAliases(),
+    },
   };
 };

@@ -1,5 +1,5 @@
 import { fireEvent, render } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import Button from './Button';
 
 describe('Button', () => {
@@ -9,7 +9,7 @@ describe('Button', () => {
   });
 
   it('calls onClick when clicked', () => {
-    const handleClick = jest.fn();
+    const handleClick = vi.fn();
     const { getByText } = render(<Button onClick={handleClick}>Click</Button>);
     fireEvent.click(getByText('Click'));
     expect(handleClick).toHaveBeenCalledTimes(1);
