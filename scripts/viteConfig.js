@@ -40,17 +40,17 @@ export const createCopyPackageJsonPlugin = (packageDir) => {
  * @returns {Object} Vite build configuration
  */
 export const createComponentBuildConfig = (componentName, packageDir) => {
-  const __dirname = dirname(fileURLToPath(packageDir));
+  const dirName = dirname(fileURLToPath(packageDir));
 
   // Read peerDependencies from package.json
-  const packageJsonPath = resolve(__dirname, 'package.json');
+  const packageJsonPath = resolve(dirName, 'package.json');
   const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
   const peerDeps = Object.keys(packageJson.peerDependencies || {});
 
   return {
     sourcemap: true,
     lib: {
-      entry: resolve(__dirname, 'src/index.js'),
+      entry: resolve(dirName, 'src/index.js'),
       name: componentName,
       fileName: (format) => `index.${format === 'es' ? 'mjs' : 'js'}`,
       formats: ['es', 'cjs'],
@@ -76,10 +76,10 @@ export const createComponentBuildConfig = (componentName, packageDir) => {
  * @returns {Object} Complete Vite configuration
  */
 export const createComponentViteConfig = (componentName, packageUrl) => {
-  const __dirname = dirname(fileURLToPath(packageUrl));
+  const dirName = dirname(fileURLToPath(packageUrl));
 
   return {
-    plugins: [reactPlugin, createCopyPackageJsonPlugin(__dirname)],
+    plugins: [reactPlugin, createCopyPackageJsonPlugin(dirName)],
     build: createComponentBuildConfig(componentName, packageUrl),
     css: cssConfig,
   };

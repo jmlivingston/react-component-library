@@ -2,15 +2,15 @@ import { readdirSync, statSync } from 'fs';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const fileName = fileURLToPath(import.meta.url);
+const dirName = dirname(fileName);
 
 /**
  * Get all component packages dynamically from the packages directory
  * Returns components with their original casing from the directory names
  */
 export const getComponents = () => {
-  const packagesDir = join(__dirname, '../packages');
+  const packagesDir = join(dirName, '../packages');
   return readdirSync(packagesDir).filter((dir) => {
     const fullPath = join(packagesDir, dir);
     // Filter out non-directories
