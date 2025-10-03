@@ -66,7 +66,7 @@ This will present an interactive prompt where you can select:
 
 - **All** - Runs Storybook with all components
 - **Button** - Runs Storybook for Button only (port 6006)
-- **Card** - Runs Storybook for Card only (port 6007)
+- **Card** - Runs Storybook for Card only (port 6006)
 
 **Direct Mode:**
 
@@ -76,7 +76,7 @@ This will present an interactive prompt where you can select:
 yarn storybook All      # All components (port 6006)
 yarn storybook Button   # Button only (port 6006)
 yarn storybook button   # Button only (port 6006)
-yarn storybook Card     # Card only (port 6007)
+yarn storybook Card     # Card only (port 6006)
 ```
 
 ## Project Structure

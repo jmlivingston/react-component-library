@@ -17,7 +17,7 @@
       "executor": "@nx/storybook:storybook",
       "options": {
         "configDir": "packages/Card/.storybook",
-        "port": 6007
+        "port": 6006
       }
     },
     "nx-release-publish": {
