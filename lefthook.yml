@@ -1,4 +1,4 @@
-# Note: Always run `yarn postinstall` after making changes to this file.
+# Note: Always run `yarn prepare` after making changes to this file.
 pre-commit:
   jobs:
     - name: lint
