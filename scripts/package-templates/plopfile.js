@@ -42,7 +42,7 @@ const create = (plop) => {
       },
       {
         type: 'add',
-        path: '../../packages/{{pascalCase name}}/vite.config',
+        path: '../../packages/{{pascalCase name}}/vite.config.js',
         templateFile: 'plop/vite.config.js.hbs',
       },
       {
@@ -67,7 +67,7 @@ const create = (plop) => {
       },
       {
         type: 'add',
-        path: '../../packages/{{pascalCase name}}/src/index',
+        path: '../../packages/{{pascalCase name}}/src/index.js',
         templateFile: 'plop/index.js.hbs',
       },
       {
