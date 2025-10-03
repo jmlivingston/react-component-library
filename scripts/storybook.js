@@ -11,15 +11,23 @@ async function main() {
   let component = process.argv[2];
 
   if (!component) {
-    const answer = await inquirer.prompt([
-      {
-        type: "list",
-        name: "component",
-        message: "Which component's Storybook would you like to run?",
-        choices: ["All", ...components],
-      },
-    ]);
-    component = answer.component;
+    try {
+      const answer = await inquirer.prompt([
+        {
+          type: "list",
+          name: "component",
+          message: "Which component's Storybook would you like to run?",
+          choices: ["All", ...components],
+        },
+      ]);
+      component = answer.component;
+    } catch (error) {
+      if (error.isTtyError || error.name === "ExitPromptError") {
+        console.log("\nStorybook cancelled.");
+        process.exit(0);
+      }
+      throw error;
+    }
   }
 
   if (component === "All") {

@@ -9,15 +9,23 @@ async function main() {
   let component = process.argv[2];
 
   if (!component) {
-    const answer = await inquirer.prompt([
-      {
-        type: "list",
-        name: "component",
-        message: "Which component would you like to build?",
-        choices: ["All", ...components],
-      },
-    ]);
-    component = answer.component;
+    try {
+      const answer = await inquirer.prompt([
+        {
+          type: "list",
+          name: "component",
+          message: "Which component would you like to build?",
+          choices: ["All", ...components],
+        },
+      ]);
+      component = answer.component;
+    } catch (error) {
+      if (error.isTtyError || error.name === "ExitPromptError") {
+        console.log("\nBuild cancelled.");
+        process.exit(0);
+      }
+      throw error;
+    }
   }
 
   if (component === "All") {
