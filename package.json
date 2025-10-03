@@ -90,6 +90,19 @@
           "import/extensions": ["error", "always", { "ignorePackages": true }],
           "import/no-extraneous-dependencies": ["error", { "devDependencies": true }]
         }
+      },
+      {
+        "files": ["packages/*/src/**/*.{js,jsx}"],
+        "rules": {
+          "import/no-unresolved": ["error", { "ignore": ["^@react-component-library/"] }],
+          "import/extensions": "off"
+        }
+      },
+      {
+        "files": ["packages/*/src/**/*.test.{js,jsx}", "packages/*/src/**/*.stories.{js,jsx}"],
+        "rules": {
+          "import/no-extraneous-dependencies": "off"
+        }
       }
     ]
   }
