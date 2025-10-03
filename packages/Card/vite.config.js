@@ -1,45 +1,4 @@
-import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
-import { resolve } from "path";
-import { copyFileSync } from "fs";
+import { createComponentViteConfig } from "../../scripts/viteConfig.js";
 
-export default defineConfig({
-  plugins: [
-    react({
-      jsxRuntime: "automatic",
-    }),
-    {
-      name: "copy-package-json",
-      closeBundle() {
-        copyFileSync(
-          resolve(__dirname, "package.json"),
-          resolve(__dirname, "../../dist/packages/Card/package.json")
-        );
-      },
-    },
-  ],
-  build: {
-    lib: {
-      entry: resolve(__dirname, "src/index.js"),
-      name: "Card",
-      fileName: (format) => `index.${format === "es" ? "mjs" : "js"}`,
-      formats: ["es", "cjs"],
-    },
-    rollupOptions: {
-      external: ["react", "react-dom"],
-      output: {
-        globals: {
-          react: "React",
-          "react-dom": "ReactDOM",
-        },
-      },
-    },
-    outDir: "../../dist/packages/Card",
-    emptyOutDir: true,
-  },
-  css: {
-    preprocessorOptions: {
-      scss: {},
-    },
-  },
-});
+export default defineConfig(createComponentViteConfig("Card", import.meta.url));

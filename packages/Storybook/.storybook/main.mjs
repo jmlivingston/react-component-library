@@ -1,17 +1,6 @@
-export default {
-  stories: [
-    "../../Button/src/**/*.stories.jsx",
-    "../../Card/src/**/*.stories.jsx",
-  ],
-  addons: ["@storybook/addon-docs", "@storybook/addon-links"],
-  framework: "@storybook/react-vite",
-  async viteFinal(config) {
-    return {
-      ...config,
-      esbuild: {
-        ...config.esbuild,
-        jsx: "automatic",
-      },
-    };
-  },
-};
+import { createComponentStorybookConfig } from "../../../scripts/storybookConfig.js";
+
+export default createComponentStorybookConfig([
+  "../../Button/src/**/*.stories.jsx",
+  "../../Card/src/**/*.stories.jsx",
+]);
