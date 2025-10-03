@@ -1,6 +1,4 @@
-import React from "react";
 import "./Card.scss";
-void React;
 
 function Card({ title, children, footer }) {
   return (

@@ -3,7 +3,12 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "storybook": "nx run Storybook:storybook"
+    "storybook": "nx run Storybook:storybook",
+    "storybook:button": "nx run button:storybook",
+    "storybook:card": "nx run card:storybook",
+    "build": "nx run-many -t build -p button card",
+    "build:button": "nx run button:build",
+    "build:card": "nx run card:build"
   },
   "keywords": [],
   "author": "",

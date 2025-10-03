@@ -2,11 +2,23 @@
   "name": "@react-component-library/card",
   "version": "0.0.1",
   "main": "./index.js",
+  "module": "./index.mjs",
   "types": "./index.d.ts",
   "exports": {
     ".": {
       "import": "./index.mjs",
       "require": "./index.js"
-    }
+    },
+    "./style.css": "./card.css"
+  },
+  "files": [
+    "index.js",
+    "index.mjs",
+    "index.d.ts",
+    "card.css"
+  ],
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
   }
 }
