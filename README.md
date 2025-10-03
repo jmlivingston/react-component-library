@@ -193,7 +193,6 @@ yarn link-all
 ```bash
 yarn link @react-component-library/button
 yarn link @react-component-library/card
-yarn link @react-component-library/foo
 ```
 
 **3. After making changes, rebuild to see updates:**

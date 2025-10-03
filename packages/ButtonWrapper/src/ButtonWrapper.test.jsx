@@ -1,10 +1,9 @@
 import { render } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
-import Foo from './Foo';
+import ButtonWrapper from './ButtonWrapper';
 
-describe('Foo', () => {
+describe('ButtonWrapper', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<Foo />);
+    const { baseElement } = render(<ButtonWrapper />);
     expect(baseElement).toBeTruthy();
   });
 });

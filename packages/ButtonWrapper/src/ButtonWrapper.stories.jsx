@@ -1,8 +1,8 @@
-import Foo from './Foo';
+import ButtonWrapper from './ButtonWrapper';
 
 export default {
-  title: 'Foo',
-  component: Foo,
+  title: 'ButtonWrapper',
+  component: ButtonWrapper,
   tags: ['autodocs'],
   argTypes: {},
 };

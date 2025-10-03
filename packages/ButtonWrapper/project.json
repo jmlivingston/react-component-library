@@ -1,7 +1,7 @@
 {
-  "name": "Foo",
+  "name": "buttonWrapper",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "packages/Foo/src",
+  "sourceRoot": "packages/ButtonWrapper/src",
   "projectType": "library",
   "tags": [],
   "targets": {
@@ -10,13 +10,13 @@
       "outputs": ["{projectRoot}/lib"],
       "options": {
         "command": "vite build",
-        "cwd": "packages/Foo"
+        "cwd": "packages/ButtonWrapper"
       }
     },
     "storybook": {
       "executor": "@nx/storybook:storybook",
       "options": {
-        "configDir": "packages/Foo/.storybook",
+        "configDir": "packages/ButtonWrapper/.storybook",
         "port": 6006
       }
     },

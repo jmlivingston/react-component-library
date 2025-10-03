@@ -1,5 +1,5 @@
 {
-  "name": "@react-component-library/foo",
+  "name": "@react-component-library/button-wrapper",
   "version": "0.0.1",
   "main": "./index.js",
   "module": "./index.mjs",
@@ -9,16 +9,15 @@
       "import": "./index.mjs",
       "require": "./index.js"
     },
-    "./style.css": "./foo.css"
+    "./style.css": "./button-wrapper.css"
   },
   "files": [
     "index.js",
     "index.mjs",
     "index.d.ts",
-    "foo.css"
+    "button-wrapper.css"
   ],
   "peerDependencies": {
-    "@react-component-library/button": "^0.0.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
   },

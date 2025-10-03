@@ -36,13 +36,13 @@ const main = async () => {
     execSync(`nx run-many -t build -p ${componentNames.join(' ')}`, {
       stdio: 'inherit',
     });
-    execSync('nx run @react-component-library/storybook:build-storybook', {
+    execSync('nx run @react-component-library/storybook:build-storybook --output-dir=./lib', {
       stdio: 'inherit',
     });
   } else if (component.toLowerCase() === 'storybook') {
     // eslint-disable-next-line no-console
     console.log('Building Storybook...');
-    execSync('nx run @react-component-library/storybook:build-storybook', {
+    execSync('nx run @react-component-library/storybook:build-storybook --output-dir=./lib', {
       stdio: 'inherit',
     });
   } else {
