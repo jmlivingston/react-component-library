@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
-import { readdirSync } from 'fs';
+import { readdirSync, existsSync } from 'fs';
 import { execSync } from 'child_process';
 import { join } from 'path';
 
-const distPackagesDir = 'dist/packages';
+const packagesDir = 'packages';
 const action = process.argv[2]; // 'link' or 'unlink'
 
 if (!['link', 'unlink'].includes(action)) {
@@ -13,17 +13,18 @@ if (!['link', 'unlink'].includes(action)) {
 }
 
 try {
-  const packages = readdirSync(distPackagesDir, { withFileTypes: true })
+  const packages = readdirSync(packagesDir, { withFileTypes: true })
     .filter((dirent) => dirent.isDirectory() && dirent.name !== 'Storybook')
+    .filter((dirent) => existsSync(join(packagesDir, dirent.name, 'lib')))
     .map((dirent) => dirent.name);
 
   if (packages.length === 0) {
-    console.log('No packages found to link. Run "yarn build" first.');
+    console.log('No built packages found to link. Run "yarn build" first.');
     process.exit(0);
   }
 
   packages.forEach((pkg) => {
-    const pkgPath = join(distPackagesDir, pkg);
+    const pkgPath = join(packagesDir, pkg, 'lib');
     console.log(`${action === 'link' ? 'Linking' : 'Unlinking'} ${pkg}...`);
     execSync(`yarn ${action}`, { cwd: pkgPath, stdio: 'inherit' });
   });

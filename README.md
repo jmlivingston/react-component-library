@@ -42,7 +42,7 @@ yarn build Storybook    # Build only Storybook static site
 
 **Build Output:**
 
-- Components: `dist/packages/<ComponentName>/`
+- Components: `packages/<ComponentName>/lib/`
 - Storybook: `dist/packages/Storybook/`
 
 Each component package includes:
@@ -87,12 +87,14 @@ react-component-library/
 │   ├── Button/           # Button component
 │   │   ├── .storybook/   # Button-specific Storybook config
 │   │   ├── src/
+│   │   ├── lib/          # Build output (generated)
 │   │   ├── package.json
 │   │   ├── project.json
 │   │   └── vite.config.js
 │   ├── Card/             # Card component
 │   │   ├── .storybook/   # Card-specific Storybook config
 │   │   ├── src/
+│   │   ├── lib/          # Build output (generated)
 │   │   ├── package.json
 │   │   ├── project.json
 │   │   └── vite.config.js
@@ -104,7 +106,7 @@ react-component-library/
 │   ├── build.js
 │   ├── storybook.js
 │   └── utils.js
-├── dist/                 # Build output (generated)
+├── dist/                 # Storybook build output (generated)
 └── package.json
 ```
 
@@ -163,6 +165,6 @@ Each component is built as a standalone package ready for npm publishing:
 
 ```bash
 yarn build <component>
-cd dist/packages/<ComponentName>
+cd packages/<ComponentName>/lib
 npm publish  # or yarn publish
 ```

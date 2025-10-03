@@ -20,18 +20,17 @@ export const cssConfig = {
 };
 
 /**
- * Create a Vite plugin to copy package.json to the dist folder
- * @param {string} componentName - Name of the component (e.g., "Button", "Card")
+ * Create a Vite plugin to copy package.json to the lib folder
  * @param {string} packageDir - Directory path of the package
  * @returns {Object} Vite plugin
  */
-export const createCopyPackageJsonPlugin = (componentName, packageDir) => {
+export const createCopyPackageJsonPlugin = (packageDir) => {
   return {
     name: 'copy-package-json',
     closeBundle() {
       copyFileSync(
         resolve(packageDir, 'package.json'),
-        resolve(packageDir, `../../dist/packages/${componentName}/package.json`)
+        resolve(packageDir, 'lib/package.json')
       );
     },
   };
@@ -68,7 +67,7 @@ export const createComponentBuildConfig = (componentName, packageDir) => {
         },
       },
     },
-    outDir: `../../dist/packages/${componentName}`,
+    outDir: 'lib',
     emptyOutDir: true,
   };
 };
@@ -83,7 +82,7 @@ export const createComponentViteConfig = (componentName, packageUrl) => {
   const __dirname = dirname(fileURLToPath(packageUrl));
 
   return {
-    plugins: [reactPlugin, createCopyPackageJsonPlugin(componentName, __dirname)],
+    plugins: [reactPlugin, createCopyPackageJsonPlugin(__dirname)],
     build: createComponentBuildConfig(componentName, packageUrl),
     css: cssConfig,
   };

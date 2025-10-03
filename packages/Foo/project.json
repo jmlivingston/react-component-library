@@ -1,5 +1,5 @@
 {
-  "name": "foo",
+  "name": "Foo",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/Foo/src",
   "projectType": "library",
@@ -7,7 +7,7 @@
   "targets": {
     "build": {
       "executor": "nx:run-commands",
-      "outputs": ["{workspaceRoot}/dist/packages/Foo"],
+      "outputs": ["{projectRoot}/lib"],
       "options": {
         "command": "vite build",
         "cwd": "packages/Foo"
@@ -22,13 +22,13 @@
     },
     "nx-release-publish": {
       "options": {
-        "packageRoot": "dist/{projectRoot}"
+        "packageRoot": "{projectRoot}/lib"
       }
     }
   },
   "release": {
     "version": {
-      "manifestRootsToUpdate": ["dist/{projectRoot}"],
+      "manifestRootsToUpdate": ["{projectRoot}/lib"],
       "currentVersionResolver": "git-tag",
       "fallbackCurrentVersionResolver": "disk"
     }
