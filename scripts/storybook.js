@@ -2,7 +2,7 @@
 
 import { execSync } from "child_process";
 import inquirer from "inquirer";
-import { getComponents } from "./utils.js";
+import { getComponents, findComponent } from "./utils.js";
 
 async function main() {
   const components = getComponents().filter(
@@ -33,13 +33,18 @@ async function main() {
   if (component === "All") {
     console.log("Starting Storybook with all components...");
     execSync("nx run Storybook:storybook", { stdio: "inherit" });
-  } else if (components.includes(component)) {
-    console.log(`Starting Storybook for ${component}...`);
-    execSync(`nx run ${component}:storybook`, { stdio: "inherit" });
   } else {
-    console.error(`Unknown component: ${component}`);
-    console.error(`Available components: ${components.join(", ")}, all`);
-    process.exit(1);
+    const foundComponent = findComponent(component);
+    if (foundComponent && foundComponent !== "Storybook") {
+      console.log(`Starting Storybook for ${foundComponent}...`);
+      execSync(`nx run ${foundComponent.toLowerCase()}:storybook`, {
+        stdio: "inherit",
+      });
+    } else {
+      console.error(`Unknown component: ${component}`);
+      console.error(`Available components: ${components.join(", ")}, All`);
+      process.exit(1);
+    }
   }
 }
 

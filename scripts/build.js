@@ -2,7 +2,7 @@
 
 import { execSync } from "child_process";
 import inquirer from "inquirer";
-import { getComponents } from "./utils.js";
+import { getComponents, findComponent } from "./utils.js";
 
 async function main() {
   const components = getComponents();
@@ -30,26 +30,32 @@ async function main() {
 
   if (component === "All") {
     console.log("Building all components...");
-    execSync(`nx run-many -t build -p ${components.join(" ")}`, {
+    const componentNames = components.map((c) => c.toLowerCase());
+    execSync(`nx run-many -t build -p ${componentNames.join(" ")}`, {
       stdio: "inherit",
     });
     execSync("nx run @react-component-library/storybook:build-storybook", {
       stdio: "inherit",
     });
-  } else if (component === "Storybook") {
+  } else if (component.toLowerCase() === "storybook") {
     console.log("Building Storybook...");
     execSync("nx run @react-component-library/storybook:build-storybook", {
       stdio: "inherit",
     });
-  } else if (components.includes(component.toLowerCase())) {
-    console.log(`Building ${component}...`);
-    execSync(`nx run ${component.toLowerCase()}:build`, { stdio: "inherit" });
   } else {
-    console.error(`Unknown component: ${component}`);
-    console.error(
-      `Available components: ${components.join(", ")}, Storybook, all`
-    );
-    process.exit(1);
+    const foundComponent = findComponent(component);
+    if (foundComponent) {
+      console.log(`Building ${foundComponent}...`);
+      execSync(`nx run ${foundComponent.toLowerCase()}:build`, {
+        stdio: "inherit",
+      });
+    } else {
+      console.error(`Unknown component: ${component}`);
+      console.error(
+        `Available components: ${components.join(", ")}, Storybook, All`
+      );
+      process.exit(1);
+    }
   }
 }
 
