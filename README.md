@@ -31,7 +31,7 @@ This will present an interactive prompt where you can select:
 
 **Direct Mode:**
 
-> Note: Not case sensitive.
+> Note: Component names not case sensitive.
 
 ```bash
 yarn build All          # Build all components and Storybook
@@ -52,7 +52,7 @@ Each component package includes:
 - `<component>.css` (Styles)
 - `package.json` (Package metadata)
 
-### Storybook
+### Storybook (Debugging)
 
 Run Storybook development server to view and interact with components.
 
@@ -70,13 +70,62 @@ This will present an interactive prompt where you can select:
 
 **Direct Mode:**
 
-> Note: Not case sensitive.
+> Note: Component names not case sensitive.
 
 ```bash
 yarn storybook All      # All components (port 6006)
 yarn storybook Button   # Button only (port 6006)
 yarn storybook button   # Button only (port 6006)
 yarn storybook Card     # Card only (port 6006)
+```
+
+### Linting
+
+Lint JavaScript/JSX files with ESLint or SCSS files with Stylelint.
+
+> Note: Component names not case sensitive.
+
+**ESLint:**
+
+```bash
+yarn lint              # Interactive prompt to select component/scripts/all
+yarn lint All          # Lint all components and scripts
+yarn lint Button       # Lint Button component only
+yarn lint Scripts      # Lint scripts only
+yarn lint --fix        # Auto-fix issues
+yarn lint-watch        # Watch mode - auto-fixes files as you edit them
+```
+
+**Stylelint:**
+
+```bash
+yarn lint:styles        # Interactive prompt to select component/all
+yarn lint:styles All    # Lint all component styles
+yarn lint:styles Button # Lint Button component styles only
+yarn lint:styles --fix  # Auto-fix issues
+yarn lint-watch:styles  # Watch mode - auto-fixes styles as you edit them
+```
+
+### Testing
+
+Run tests with Vitest.
+
+```bash
+yarn test              # Interactive prompt to select component/all
+yarn test All          # Run all tests
+yarn test Button       # Run Button tests only
+yarn test-watch        # Watch mode - runs tests as you edit
+yarn test-watch Button # Watch mode for specific component
+```
+
+### Other Commands
+
+```bash
+yarn format           # Format all files with Prettier
+yarn clear-cache      # Clear NX cache
+yarn clear-build      # Remove all build outputs (packages/*/lib)
+yarn create-package   # Create a new component package from template
+yarn sync-peer-deps   # Sync peerDependencies versions from root package.json
 ```
 
 ## Project Structure

@@ -6,8 +6,9 @@ import { findComponent, getComponents } from './utils.js';
 
 const main = async () => {
   const components = getComponents().filter((component) => component !== 'Storybook');
-  let component = process.argv[2];
-  const fixFlag = process.argv.includes('--fix') ? ' --fix' : '';
+  let component = process.argv.slice(2).find((arg) => !arg.startsWith('--'));
+  const isWatch = process.argv.includes('--watch');
+  const fixFlag = (process.argv.includes('--fix') || isWatch) ? ' --fix' : '';
 
   if (!component) {
     try {
@@ -31,21 +32,40 @@ const main = async () => {
   }
 
   if (component.toLowerCase() === 'all') {
-    // eslint-disable-next-line no-console
-    console.log(`Linting all components and scripts${fixFlag ? ' with --fix' : ''}...`);
-    execSync(`eslint "packages/*/src/**/*.{js,jsx}" "scripts/**/*.js"${fixFlag}`, { stdio: 'inherit' });
+    const pattern = '"packages/*/src/**/*.{js,jsx}" "scripts/**/*.js"';
+    if (isWatch) {
+      // eslint-disable-next-line no-console
+      console.log('Watching all components and scripts with auto-fix...');
+      execSync(`chokidar ${pattern} -c "eslint {path}${fixFlag}"`, { stdio: 'inherit' });
+    } else {
+      // eslint-disable-next-line no-console
+      console.log(`Linting all components and scripts${fixFlag ? ' with --fix' : ''}...`);
+      execSync(`eslint ${pattern}${fixFlag}`, { stdio: 'inherit' });
+    }
   } else if (component.toLowerCase() === 'scripts') {
-    // eslint-disable-next-line no-console
-    console.log(`Linting scripts${fixFlag ? ' with --fix' : ''}...`);
-    execSync(`eslint "scripts/**/*.js"${fixFlag}`, { stdio: 'inherit' });
+    const pattern = '"scripts/**/*.js"';
+    if (isWatch) {
+      // eslint-disable-next-line no-console
+      console.log('Watching scripts with auto-fix...');
+      execSync(`chokidar ${pattern} -c "eslint {path}${fixFlag}"`, { stdio: 'inherit' });
+    } else {
+      // eslint-disable-next-line no-console
+      console.log(`Linting scripts${fixFlag ? ' with --fix' : ''}...`);
+      execSync(`eslint ${pattern}${fixFlag}`, { stdio: 'inherit' });
+    }
   } else {
     const foundComponent = findComponent(component);
     if (foundComponent && foundComponent !== 'Storybook') {
-      // eslint-disable-next-line no-console
-      console.log(`Linting ${foundComponent}${fixFlag ? ' with --fix' : ''}...`);
-      execSync(`eslint "packages/${foundComponent}/src/**/*.{js,jsx}"${fixFlag}`, {
-        stdio: 'inherit',
-      });
+      const pattern = `"packages/${foundComponent}/src/**/*.{js,jsx}"`;
+      if (isWatch) {
+        // eslint-disable-next-line no-console
+        console.log(`Watching ${foundComponent} with auto-fix...`);
+        execSync(`chokidar ${pattern} -c "eslint {path}${fixFlag}"`, { stdio: 'inherit' });
+      } else {
+        // eslint-disable-next-line no-console
+        console.log(`Linting ${foundComponent}${fixFlag ? ' with --fix' : ''}...`);
+        execSync(`eslint ${pattern}${fixFlag}`, { stdio: 'inherit' });
+      }
     } else {
       // eslint-disable-next-line no-console
       console.error(`Unknown component: ${component}`);
