@@ -8,6 +8,8 @@
     "storybook": "node scripts/storybook",
     "build": "node scripts/build",
     "lint": "node scripts/lint",
+    "test": "node scripts/test",
+    "test-watch": "node scripts/test --watch",
     "format": "prettier --write \"**/*.{js,json,md,scss}\"",
     "clear-cache": "nx reset",
     "clear-build": "rm -rf packages/*/lib",
