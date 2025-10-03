@@ -1,11 +1,11 @@
-import "./Button.scss";
+import './Button.scss';
 
-const Button = ({ children, onClick, variant = "primary" }) => {
+function Button({ children, onClick, variant = 'primary' }) {
   return (
-    <button className={`button ${variant}`.trim()} onClick={onClick}>
+    <button className={`button ${variant}`.trim()} onClick={onClick} type="button">
       {children}
     </button>
   );
-};
+}
 
 export default Button;

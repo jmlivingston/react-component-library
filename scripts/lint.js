@@ -7,6 +7,7 @@ import { findComponent, getComponents } from './utils.js';
 const main = async () => {
   const components = getComponents().filter((component) => component !== 'Storybook');
   let component = process.argv[2];
+  const fixFlag = process.argv.includes('--fix') ? ' --fix' : '';
 
   if (!component) {
     try {
@@ -14,15 +15,15 @@ const main = async () => {
         {
           type: 'list',
           name: 'component',
-          message: "Which component's Storybook would you like to run?",
-          choices: ['All', ...components],
+          message: 'Which component would you like to lint?',
+          choices: ['All', ...components, 'Scripts'],
         },
       ]);
       component = answer.component;
     } catch (error) {
       if (error.isTtyError || error.name === 'ExitPromptError') {
         // eslint-disable-next-line no-console
-        console.log('\nStorybook cancelled.');
+        console.log('\nLint cancelled.');
         process.exit(0);
       }
       throw error;
@@ -31,21 +32,25 @@ const main = async () => {
 
   if (component.toLowerCase() === 'all') {
     // eslint-disable-next-line no-console
-    console.log('Starting Storybook with all components...');
-    execSync('nx run Storybook:storybook', { stdio: 'inherit' });
+    console.log(`Linting all components and scripts${fixFlag ? ' with --fix' : ''}...`);
+    execSync(`eslint "packages/*/src/**/*.{js,jsx}" "scripts/**/*.js"${fixFlag}`, { stdio: 'inherit' });
+  } else if (component.toLowerCase() === 'scripts') {
+    // eslint-disable-next-line no-console
+    console.log(`Linting scripts${fixFlag ? ' with --fix' : ''}...`);
+    execSync(`eslint "scripts/**/*.js"${fixFlag}`, { stdio: 'inherit' });
   } else {
     const foundComponent = findComponent(component);
     if (foundComponent && foundComponent !== 'Storybook') {
       // eslint-disable-next-line no-console
-      console.log(`Starting Storybook for ${foundComponent}...`);
-      execSync(`nx run ${foundComponent.toLowerCase()}:storybook`, {
+      console.log(`Linting ${foundComponent}${fixFlag ? ' with --fix' : ''}...`);
+      execSync(`eslint "packages/${foundComponent}/src/**/*.{js,jsx}"${fixFlag}`, {
         stdio: 'inherit',
       });
     } else {
       // eslint-disable-next-line no-console
       console.error(`Unknown component: ${component}`);
       // eslint-disable-next-line no-console
-      console.error(`Available components: ${components.join(', ')}, All`);
+      console.error(`Available options: ${components.join(', ')}, Scripts, All`);
       process.exit(1);
     }
   }

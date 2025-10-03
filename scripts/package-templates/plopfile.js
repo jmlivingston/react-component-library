@@ -19,7 +19,7 @@ export default function (plop) {
         name: 'name',
         message: 'Component name (PascalCase):',
         validate: (value) => {
-          if (!value) return 'Component name is required';
+          if (!value) { return 'Component name is required'; }
           if (!/^[A-Z][a-zA-Z0-9]*$/.test(value)) {
             return 'Component name must be in PascalCase (e.g., Button, Card, MyComponent)';
           }

@@ -1,6 +1,6 @@
-import "./Card.scss";
+import './Card.scss';
 
-const Card = ({ title, children, footer }) => {
+function Card({ title, children, footer }) {
   return (
     <div className="card">
       <div className="header">{title}</div>
@@ -8,6 +8,6 @@ const Card = ({ title, children, footer }) => {
       {footer && <div className="footer">{footer}</div>}
     </div>
   );
-};
+}
 
 export default Card;

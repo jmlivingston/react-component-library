@@ -34,6 +34,7 @@ componentPackages.forEach((pkg) => {
     // Check if it's a root dependency
     const rootVersion = rootPackageJson.dependencies?.[dep] || rootPackageJson.devDependencies?.[dep];
     if (rootVersion && packageJson.peerDependencies[dep] !== rootVersion) {
+      // eslint-disable-next-line no-console
       console.log(`Updating ${pkg}: ${dep} from ${packageJson.peerDependencies[dep]} to ${rootVersion}`);
       packageJson.peerDependencies[dep] = rootVersion;
       updated = true;
@@ -41,17 +42,17 @@ componentPackages.forEach((pkg) => {
 
     // Check if it's a local component
     if (componentVersions[dep] && packageJson.peerDependencies[dep] !== `^${componentVersions[dep]}`) {
-      console.log(
-        `Updating ${pkg}: ${dep} from ${packageJson.peerDependencies[dep]} to ^${componentVersions[dep]}`
-      );
+      // eslint-disable-next-line no-console
+      console.log(`Updating ${pkg}: ${dep} from ${packageJson.peerDependencies[dep]} to ^${componentVersions[dep]}`);
       packageJson.peerDependencies[dep] = `^${componentVersions[dep]}`;
       updated = true;
     }
   });
 
   if (updated) {
-    writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2) + '\n', 'utf-8');
+    writeFileSync(packageJsonPath, `${JSON.stringify(packageJson, null, 2)}\n`, 'utf-8');
   }
 });
 
+// eslint-disable-next-line no-console
 console.log('\n✓ Peer dependencies synced successfully!');

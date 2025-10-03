@@ -28,10 +28,7 @@ export const createCopyPackageJsonPlugin = (packageDir) => {
   return {
     name: 'copy-package-json',
     closeBundle() {
-      copyFileSync(
-        resolve(packageDir, 'package.json'),
-        resolve(packageDir, 'lib/package.json')
-      );
+      copyFileSync(resolve(packageDir, 'package.json'), resolve(packageDir, 'lib/package.json'));
     },
   };
 };

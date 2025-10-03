@@ -133,12 +133,14 @@ No need to update any scripts - they dynamically read from the packages director
 To test components in another project locally:
 
 **1. Build and link all packages:**
+
 ```bash
 yarn build
 yarn link-all
 ```
 
 **2. In your other project, link the packages you need:**
+
 ```bash
 yarn link @react-component-library/button
 yarn link @react-component-library/card
@@ -146,11 +148,13 @@ yarn link @react-component-library/foo
 ```
 
 **3. After making changes, rebuild to see updates:**
+
 ```bash
 yarn build
 ```
 
 **4. When done, unlink:**
+
 ```bash
 # In your other project
 yarn unlink @react-component-library/button
