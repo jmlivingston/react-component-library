@@ -5,3 +5,4 @@ storybook-static
 node_modules
 .nx
 packages/*/lib
+src/git-hooks

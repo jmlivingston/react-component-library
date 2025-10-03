@@ -5,6 +5,7 @@
   "main": "index.js",
   "packageManager": "yarn@1.22.0",
   "scripts": {
+    "prepare": "lefthook install",
     "storybook": "node scripts/storybook",
     "build": "node scripts/build",
     "lint": "node scripts/lint",
@@ -58,9 +59,11 @@
     "eslint-plugin-you-dont-need-lodash-underscore": "^6.12.0",
     "inquirer": "^12.9.6",
     "jsdom": "^26.1.0",
+    "lefthook": "^1.13.6",
     "nx": "21.6.3",
     "plop": "^4.0.4",
     "prettier": "^2.6.2",
+    "pretty-quick": "^4.2.2",
     "sass-embedded": "^1.93.2",
     "storybook": "9.1.10",
     "stylelint": "^16.25.0",
@@ -130,7 +133,8 @@
               ]
             }
           ],
-          "import/extensions": "off"
+          "import/extensions": "off",
+          "react/function-component-definition": "off"
         }
       },
       {

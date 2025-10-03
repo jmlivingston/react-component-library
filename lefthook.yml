@@ -1,0 +1,19 @@
+# Note: Always run `yarn postinstall` after making changes to this file.
+pre-commit:
+  jobs:
+    - name: lint
+      glob: '*.{js,jsx,json}'
+      exclude: '.vscode'
+      run: yarn run lint all {staged_files} --fix --max-warnings=0 && git add {staged_files}
+    - name: lint:styles
+      glob: '*.{css,scss}'
+      run: ./node_modules/.bin/stylelint --fix {staged_files} && git add {staged_files}
+    - name: format
+      glob: '*.{css,js,json,md,scss}'
+      run: yarn pretty-quick --staged && git add {staged_files} && git add {staged_files}
+    - name: test
+      run: ./node_modules/.bin/vitest related {staged_files} --run --silent
+post-merge:
+  jobs:
+    - name: yarn
+      run: yarn
