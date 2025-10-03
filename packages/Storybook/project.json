@@ -1,0 +1,24 @@
+{
+  "name": "@react-component-library/storybook",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/Storybook",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "storybook": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "storybook dev",
+        "cwd": "packages/Storybook"
+      }
+    },
+    "build-storybook": {
+      "executor": "nx:run-commands",
+      "outputs": ["{workspaceRoot}/dist/packages/Storybook"],
+      "options": {
+        "command": "storybook build --output-dir ../../dist/packages/Storybook",
+        "cwd": "packages/Storybook"
+      }
+    }
+  }
+}
