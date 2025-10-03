@@ -6,8 +6,10 @@ import { findComponent, getComponents } from './utils.js';
 
 const main = async () => {
   const components = getComponents().filter((component) => component !== 'Storybook');
-  let component = process.argv[2];
   const watchFlag = process.argv.includes('--watch') ? ' --watch' : '';
+
+  // Get component name from argv (skip node, script path, and flags)
+  let component = process.argv.slice(2).find((arg) => !arg.startsWith('--'));
 
   if (!component) {
     try {
@@ -33,13 +35,13 @@ const main = async () => {
   if (component.toLowerCase() === 'all') {
     // eslint-disable-next-line no-console
     console.log(`Testing all components${watchFlag ? ' in watch mode' : ''}...`);
-    execSync(`vitest${watchFlag}`, { stdio: 'inherit' });
+    execSync(`vitest run${watchFlag}`, { stdio: 'inherit' });
   } else {
     const foundComponent = findComponent(component);
     if (foundComponent && foundComponent !== 'Storybook') {
       // eslint-disable-next-line no-console
       console.log(`Testing ${foundComponent}${watchFlag ? ' in watch mode' : ''}...`);
-      execSync(`vitest packages/${foundComponent}${watchFlag}`, {
+      execSync(`vitest run packages/${foundComponent}${watchFlag}`, {
         stdio: 'inherit',
       });
     } else {
