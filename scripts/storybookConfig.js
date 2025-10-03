@@ -11,22 +11,24 @@ import { fileURLToPath } from 'url';
 const generatePackageAliases = () => {
   const scriptDir = dirname(fileURLToPath(import.meta.url));
   const packagesDir = resolve(scriptDir, '../packages');
-  const packages = readdirSync(packagesDir, { withFileTypes: true }).filter(
-    (dirent) => dirent.isDirectory() && dirent.name !== 'Storybook'
-  );
+  const packages = readdirSync(packagesDir, { withFileTypes: true });
 
-  const aliases = {};
+  return packages.reduce((aliases, dirent) => {
+    if (!dirent.isDirectory() || dirent.name === 'Storybook') {
+      return aliases;
+    }
 
-  for (const pkg of packages) {
-    const packageJsonPath = resolve(packagesDir, pkg.name, 'package.json');
-    const projectJsonPath = resolve(packagesDir, pkg.name, 'project.json');
+    const packageJsonPath = resolve(packagesDir, dirent.name, 'package.json');
+    const projectJsonPath = resolve(packagesDir, dirent.name, 'project.json');
     const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
     const projectJson = JSON.parse(readFileSync(projectJsonPath, 'utf-8'));
     const indexPath = new URL(`../${projectJson.sourceRoot}/index.js`, import.meta.url).pathname;
-    aliases[packageJson.name] = indexPath;
-  }
 
-  return aliases;
+    return {
+      ...aliases,
+      [packageJson.name]: indexPath,
+    };
+  }, {});
 };
 
 export const sharedStorybookConfig = {

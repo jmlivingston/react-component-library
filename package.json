@@ -87,7 +87,8 @@
       {
         "files": ["scripts/**/*.js", "scripts/**/*.mjs", "packages/**/.storybook/**/*.mjs"],
         "rules": {
-          "import/extensions": ["error", "always", { "ignorePackages": true }]
+          "import/extensions": ["error", "always", { "ignorePackages": true }],
+          "import/no-extraneous-dependencies": ["error", { "devDependencies": true }]
         }
       }
     ]
