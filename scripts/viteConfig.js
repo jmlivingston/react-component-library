@@ -1,14 +1,13 @@
-import react from "@vitejs/plugin-react";
-import { resolve } from "path";
-import { copyFileSync } from "fs";
-import { fileURLToPath } from "url";
-import { dirname } from "path";
+import react from '@vitejs/plugin-react';
+import { copyFileSync } from 'fs';
+import { dirname, resolve } from 'path';
+import { fileURLToPath } from 'url';
 
 /**
  * Shared React plugin configuration
  */
 export const reactPlugin = react({
-  jsxRuntime: "automatic",
+  jsxRuntime: 'automatic',
 });
 
 /**
@@ -28,10 +27,10 @@ export const cssConfig = {
  */
 export function createCopyPackageJsonPlugin(componentName, packageDir) {
   return {
-    name: "copy-package-json",
+    name: 'copy-package-json',
     closeBundle() {
       copyFileSync(
-        resolve(packageDir, "package.json"),
+        resolve(packageDir, 'package.json'),
         resolve(packageDir, `../../dist/packages/${componentName}/package.json`)
       );
     },
@@ -48,18 +47,19 @@ export function createComponentBuildConfig(componentName, packageDir) {
   const __dirname = dirname(fileURLToPath(packageDir));
 
   return {
+    sourcemap: true,
     lib: {
-      entry: resolve(__dirname, "src/index.js"),
+      entry: resolve(__dirname, 'src/index.js'),
       name: componentName,
-      fileName: (format) => `index.${format === "es" ? "mjs" : "js"}`,
-      formats: ["es", "cjs"],
+      fileName: (format) => `index.${format === 'es' ? 'mjs' : 'js'}`,
+      formats: ['es', 'cjs'],
     },
     rollupOptions: {
-      external: ["react", "react-dom"],
+      external: ['react', 'react-dom'],
       output: {
         globals: {
-          react: "React",
-          "react-dom": "ReactDOM",
+          react: 'React',
+          'react-dom': 'ReactDOM',
         },
       },
     },
@@ -78,10 +78,7 @@ export function createComponentViteConfig(componentName, packageUrl) {
   const __dirname = dirname(fileURLToPath(packageUrl));
 
   return {
-    plugins: [
-      reactPlugin,
-      createCopyPackageJsonPlugin(componentName, __dirname),
-    ],
+    plugins: [reactPlugin, createCopyPackageJsonPlugin(componentName, __dirname)],
     build: createComponentBuildConfig(componentName, packageUrl),
     css: cssConfig,
   };

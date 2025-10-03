@@ -6,7 +6,8 @@
   "packageManager": "yarn@1.22.0",
   "scripts": {
     "storybook": "node scripts/storybook",
-    "build": "node scripts/build"
+    "build": "node scripts/build",
+    "prettier": "prettier --write \"**/*.{js,json,md,scss}\""
   },
   "keywords": [],
   "author": "",
@@ -37,5 +38,9 @@
   "dependencies": {
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
+  },
+  "prettier": {
+    "printWidth": 120,
+    "singleQuote": true
   }
 }

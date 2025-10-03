@@ -1,48 +1,46 @@
 #!/usr/bin/env node
 
-import { execSync } from "child_process";
-import inquirer from "inquirer";
-import { getComponents, findComponent } from "./utils.js";
+import { execSync } from 'child_process';
+import inquirer from 'inquirer';
+import { findComponent, getComponents } from './utils.js';
 
 async function main() {
-  const components = getComponents().filter(
-    (component) => component !== "Storybook"
-  );
+  const components = getComponents().filter((component) => component !== 'Storybook');
   let component = process.argv[2];
 
   if (!component) {
     try {
       const answer = await inquirer.prompt([
         {
-          type: "list",
-          name: "component",
+          type: 'list',
+          name: 'component',
           message: "Which component's Storybook would you like to run?",
-          choices: ["All", ...components],
+          choices: ['All', ...components],
         },
       ]);
       component = answer.component;
     } catch (error) {
-      if (error.isTtyError || error.name === "ExitPromptError") {
-        console.log("\nStorybook cancelled.");
+      if (error.isTtyError || error.name === 'ExitPromptError') {
+        console.log('\nStorybook cancelled.');
         process.exit(0);
       }
       throw error;
     }
   }
 
-  if (component === "All") {
-    console.log("Starting Storybook with all components...");
-    execSync("nx run Storybook:storybook", { stdio: "inherit" });
+  if (component.toLowerCase() === 'all') {
+    console.log('Starting Storybook with all components...');
+    execSync('nx run Storybook:storybook', { stdio: 'inherit' });
   } else {
     const foundComponent = findComponent(component);
-    if (foundComponent && foundComponent !== "Storybook") {
+    if (foundComponent && foundComponent !== 'Storybook') {
       console.log(`Starting Storybook for ${foundComponent}...`);
       execSync(`nx run ${foundComponent.toLowerCase()}:storybook`, {
-        stdio: "inherit",
+        stdio: 'inherit',
       });
     } else {
       console.error(`Unknown component: ${component}`);
-      console.error(`Available components: ${components.join(", ")}, All`);
+      console.error(`Available components: ${components.join(', ')}, All`);
       process.exit(1);
     }
   }

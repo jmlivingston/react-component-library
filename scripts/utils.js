@@ -1,6 +1,6 @@
-import { readdirSync, statSync } from "fs";
-import { dirname, join } from "path";
-import { fileURLToPath } from "url";
+import { readdirSync, statSync } from 'fs';
+import { dirname, join } from 'path';
+import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -10,11 +10,11 @@ const __dirname = dirname(__filename);
  * Returns components with their original casing from the directory names
  */
 export function getComponents() {
-  const packagesDir = join(__dirname, "../packages");
+  const packagesDir = join(__dirname, '../packages');
   return readdirSync(packagesDir).filter((dir) => {
     const fullPath = join(packagesDir, dir);
     // Filter out non-directories
-    return statSync(fullPath).isDirectory() && !dir.startsWith(".");
+    return statSync(fullPath).isDirectory() && !dir.startsWith('.');
   });
 }
 
@@ -26,9 +26,5 @@ export function getComponents() {
  */
 export function findComponent(input) {
   const components = getComponents();
-  return (
-    components.find(
-      (component) => component.toLowerCase() === input.toLowerCase()
-    ) || null
-  );
+  return components.find((component) => component.toLowerCase() === input.toLowerCase()) || null;
 }

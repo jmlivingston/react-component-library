@@ -17,28 +17,36 @@ yarn install
 Build components and/or Storybook static site.
 
 **Interactive Mode:**
+
 ```bash
 yarn build
 ```
+
 This will present an interactive prompt where you can select:
+
 - **All** - Builds all components (Button, Card) and Storybook
 - **Button** - Builds only the Button component
 - **Card** - Builds only the Card component
 - **Storybook** - Builds the static Storybook site
 
 **Direct Mode:**
+
+> Note: Not case sensitive.
+
 ```bash
 yarn build All          # Build all components and Storybook
 yarn build Button       # Build only Button
-yarn build Card         # Build only Card
+yarn build button       # Build only button
 yarn build Storybook    # Build only Storybook static site
 ```
 
 **Build Output:**
+
 - Components: `dist/packages/<ComponentName>/`
 - Storybook: `dist/packages/Storybook/`
 
 Each component package includes:
+
 - `index.js` (CommonJS)
 - `index.mjs` (ES Modules)
 - `<component>.css` (Styles)
@@ -49,18 +57,25 @@ Each component package includes:
 Run Storybook development server to view and interact with components.
 
 **Interactive Mode:**
+
 ```bash
 yarn storybook
 ```
+
 This will present an interactive prompt where you can select:
+
 - **All** - Runs Storybook with all components
 - **Button** - Runs Storybook for Button only (port 6006)
 - **Card** - Runs Storybook for Card only (port 6007)
 
 **Direct Mode:**
+
+> Note: Not case sensitive.
+
 ```bash
 yarn storybook All      # All components (port 6006)
 yarn storybook Button   # Button only (port 6006)
+yarn storybook button   # Button only (port 6006)
 yarn storybook Card     # Card only (port 6007)
 ```
 

@@ -4,14 +4,14 @@
  */
 
 export const sharedStorybookConfig = {
-  addons: ["@storybook/addon-docs", "@storybook/addon-links"],
-  framework: "@storybook/react-vite",
+  addons: ['@storybook/addon-docs', '@storybook/addon-links'],
+  framework: '@storybook/react-vite',
   async viteFinal(config) {
     return {
       ...config,
       esbuild: {
         ...config.esbuild,
-        jsx: "automatic",
+        jsx: 'automatic',
       },
     };
   },

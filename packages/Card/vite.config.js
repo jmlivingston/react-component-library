@@ -1,4 +1,4 @@
-import { defineConfig } from "vite";
-import { createComponentViteConfig } from "../../scripts/viteConfig.js";
+import { defineConfig } from 'vite';
+import { createComponentViteConfig } from '../../scripts/viteConfig.js';
 
-export default defineConfig(createComponentViteConfig("Card", import.meta.url));
+export default defineConfig(createComponentViteConfig('Card', import.meta.url));
