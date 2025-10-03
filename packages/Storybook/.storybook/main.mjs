@@ -1,6 +1,6 @@
 import { createComponentStorybookConfig } from "../../../scripts/storybookConfig.js";
 
 export default createComponentStorybookConfig([
-  "../../Button/src/**/*.stories.jsx",
-  "../../Card/src/**/*.stories.jsx",
+  "../../*/src/**/*.stories.jsx",
+  "!../../Storybook/src/**/*.stories.jsx",
 ]);
