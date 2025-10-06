@@ -64,7 +64,7 @@ export const sharedStorybookConfig = {
  * @param {string[]} stories - Array of story glob patterns
  * @returns {Object} Storybook configuration
  */
-export const createComponentStorybookConfig = (stories) => {
+export const createComponentStorybookConfig = (stories = ['../src/**/*.stories.jsx']) => {
   return {
     stories,
     ...sharedStorybookConfig,
