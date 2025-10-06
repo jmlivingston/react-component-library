@@ -9,13 +9,13 @@
       "import": "./index.mjs",
       "require": "./index.js"
     },
-    "./button-wrapper.css": "./button-wrapper.css"
+    "./ButtonWrapper.css": "./ButtonWrapper.css"
   },
   "files": [
     "index.js",
     "index.mjs",
     "index.d.ts",
-    "button-wrapper.css"
+    "ButtonWrapper.css"
   ],
   "peerDependencies": {
     "react": "^18.0.0",

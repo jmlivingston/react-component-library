@@ -9,13 +9,13 @@
       "import": "./index.mjs",
       "require": "./index.js"
     },
-    "./card.css": "./card.css"
+    "./Card.css": "./Card.css"
   },
   "files": [
     "index.js",
     "index.mjs",
     "index.d.ts",
-    "card.css"
+    "Card.css"
   ],
   "peerDependencies": {
     "react": "^18.0.0",
