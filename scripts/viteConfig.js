@@ -1,5 +1,5 @@
 import react from '@vitejs/plugin-react';
-import { copyFileSync, readdirSync, readFileSync } from 'fs';
+import { copyFileSync, mkdirSync, readdirSync, readFileSync } from 'fs';
 import { dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -50,8 +50,10 @@ export const cssConfig = {
 export const createCopyPackageJsonPlugin = (packageDir) => {
   return {
     name: 'copy-package-json',
-    closeBundle() {
-      copyFileSync(resolve(packageDir, 'package.json'), resolve(packageDir, 'lib/package.json'));
+    writeBundle() {
+      const libDir = resolve(packageDir, 'lib');
+      mkdirSync(libDir, { recursive: true });
+      copyFileSync(resolve(packageDir, 'package.json'), resolve(libDir, 'package.json'));
     },
   };
 };
@@ -85,9 +87,15 @@ export const createComponentBuildConfig = (componentName, packageDir) => {
           react: 'React',
           'react-dom': 'ReactDOM',
         },
+        assetFileNames: (assetInfo) => {
+          if (assetInfo.name && assetInfo.name.endsWith('.css')) {
+            return `${componentName}.css`;
+          }
+          return assetInfo.name;
+        },
       },
     },
-    outDir: 'lib',
+    outDir: resolve(dirName, 'lib'),
     emptyOutDir: true,
   };
 };
