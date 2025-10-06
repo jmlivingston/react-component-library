@@ -1,8 +1,5 @@
-vite.config.*.timestamp*
-vitest.config.*.timestamp*
-dist
-storybook-static
-node_modules
 .nx
+dist
+node_modules
 packages/*/lib
 src/git-hooks
