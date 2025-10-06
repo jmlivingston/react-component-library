@@ -9,7 +9,7 @@
       "import": "./index.mjs",
       "require": "./index.js"
     },
-    "./style.css": "./card.css"
+    "./card.css": "./card.css"
   },
   "files": [
     "index.js",

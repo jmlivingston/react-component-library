@@ -9,7 +9,7 @@
       "import": "./index.mjs",
       "require": "./index.js"
     },
-    "./style.css": "./button-wrapper.css"
+    "./button-wrapper.css": "./button-wrapper.css"
   },
   "files": [
     "index.js",

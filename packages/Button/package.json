@@ -9,7 +9,7 @@
       "import": "./index.mjs",
       "require": "./index.js"
     },
-    "./style.css": "./button.css"
+    "./button.css": "./button.css"
   },
   "files": [
     "index.js",
