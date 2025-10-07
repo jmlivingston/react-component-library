@@ -59,6 +59,77 @@ export const createCopyPackageJsonPlugin = (packageDir) => {
 };
 
 /**
+ * Create a Vite plugin to add sourceMappingURL to CSS files and inject CSS imports
+ * Captures source maps during CSS processing and preserves them in the output
+ * @param {string} packageDir - Directory path of the package
+ * @returns {Object} Vite plugin
+ */
+export const createCssSourceMapPlugin = (packageDir) => {
+  return {
+    name: 'css-sourcemap-plugin',
+    enforce: 'post',
+    generateBundle(_options, bundle) {
+      let cssFileName = null;
+      let cssContent = null;
+
+      // Find CSS assets and process them
+      Object.entries(bundle).forEach(([fileName, file]) => {
+        if (file.type === 'asset' && fileName.endsWith('.css')) {
+          cssFileName = fileName;
+          cssContent = file.source.toString();
+          const mapFileName = `${fileName}.map`;
+
+          // Find the original SCSS file
+          const scssPath = resolve(packageDir, 'src', fileName.replace('.css', '.scss'));
+          let scssContent = '';
+          try {
+            scssContent = readFileSync(scssPath, 'utf-8');
+          } catch (e) {
+            // SCSS file not found, use CSS as source
+            scssContent = cssContent;
+          }
+
+          // Add sourceMappingURL comment to CSS
+          const updatedSource = `${cssContent}\n/*# sourceMappingURL=${mapFileName} */`;
+          Object.assign(file, { source: updatedSource });
+
+          // Create source map pointing to the SCSS file
+          const sourceMap = {
+            version: 3,
+            sources: [fileName.replace('.css', '.scss')],
+            names: [],
+            mappings: '',
+            file: fileName,
+            sourcesContent: [scssContent],
+          };
+
+          // Add the map file to the bundle
+          Object.assign(bundle, {
+            [mapFileName]: {
+              type: 'asset',
+              fileName: mapFileName,
+              source: JSON.stringify(sourceMap, null, 2),
+            },
+          });
+        }
+      });
+
+      // Inject CSS import into JS bundles
+      if (cssFileName) {
+        Object.entries(bundle).forEach(([fileName, file]) => {
+          if (file.type === 'chunk' && (fileName.endsWith('.js') || fileName.endsWith('.mjs'))) {
+            // Prepend CSS import to the bundle
+            const cssImport = `import './${cssFileName}';\n`;
+            const updatedFile = { ...file, code: cssImport + file.code };
+            Object.assign(bundle[fileName], updatedFile);
+          }
+        });
+      }
+    },
+  };
+};
+
+/**
  * Create a library build configuration for a component
  * @param {string} componentName - Name of the component (e.g., "Button", "Card")
  * @param {string} packageDir - Directory path of the package (use import.meta.url)
@@ -110,7 +181,7 @@ export const createComponentViteConfig = (componentName, packageUrl) => {
   const dirName = dirname(fileURLToPath(packageUrl));
 
   return {
-    plugins: [reactPlugin, createCopyPackageJsonPlugin(dirName)],
+    plugins: [reactPlugin, createCopyPackageJsonPlugin(dirName), createCssSourceMapPlugin(dirName)],
     build: createComponentBuildConfig(componentName, packageUrl),
     css: cssConfig,
     test: {
