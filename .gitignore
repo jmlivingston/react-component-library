@@ -1,6 +1,8 @@
+.agents
+.nx
+dist
+node_modules
+skills-lock.json
+storybook-static
 vite.config.*.timestamp*
 vitest.config.*.timestamp*
-dist
-storybook-static
-node_modules
-.nx
