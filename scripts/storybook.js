@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
+import { select } from '@inquirer/prompts';
 import { execSync } from 'child_process';
-import inquirer from 'inquirer';
+import { STORYBOOK_PORT } from './storybookConfig.js';
 import { findComponent, getComponents } from './utils.js';
 
 async function main() {
@@ -10,15 +11,13 @@ async function main() {
 
   if (!component) {
     try {
-      const answer = await inquirer.prompt([
-        {
-          type: 'list',
-          name: 'component',
-          message: "Which component's Storybook would you like to run?",
-          choices: ['All', ...components],
-        },
-      ]);
-      component = answer.component;
+      component = await select({
+        message: "Which component's Storybook would you like to run?",
+        choices: ['All', ...components].map((choice) => ({
+          name: choice,
+          value: choice,
+        })),
+      });
     } catch (error) {
       if (error.isTtyError || error.name === 'ExitPromptError') {
         console.log('\nStorybook cancelled.');
@@ -29,13 +28,13 @@ async function main() {
   }
 
   if (component.toLowerCase() === 'all') {
-    console.log('Starting Storybook with all components...');
-    execSync('nx run Storybook:storybook', { stdio: 'inherit' });
+    console.log(`Starting Storybook with all components on port ${STORYBOOK_PORT}...`);
+    execSync(`nx run Storybook:storybook -- --port ${STORYBOOK_PORT}`, { stdio: 'inherit' });
   } else {
     const foundComponent = findComponent(component);
     if (foundComponent && foundComponent !== 'Storybook') {
-      console.log(`Starting Storybook for ${foundComponent}...`);
-      execSync(`nx run ${foundComponent.toLowerCase()}:storybook`, {
+      console.log(`Starting Storybook for ${foundComponent} on port ${STORYBOOK_PORT}...`);
+      execSync(`nx run ${foundComponent.toLowerCase()}:storybook -- --port ${STORYBOOK_PORT}`, {
         stdio: 'inherit',
       });
     } else {

@@ -2,5 +2,4 @@ import { createComponentStorybookConfig } from "../../../scripts/storybookConfig
 
 export default createComponentStorybookConfig([
   "../../*/src/**/*.stories.jsx",
-  "!../../Storybook/src/**/*.stories.jsx",
 ]);

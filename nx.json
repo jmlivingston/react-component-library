@@ -20,8 +20,8 @@
       "options": {
         "serveStorybookTargetName": "storybook",
         "buildStorybookTargetName": "build-storybook",
-        "testStorybookTargetName": "test-storybook",
-        "staticStorybookTargetName": "static-storybook"
+        "staticStorybookTargetName": "static-storybook",
+        "testStorybookTargetName": "test-storybook"
       }
     }
   ],
@@ -36,5 +36,6 @@
         "unitTestRunner": "vitest"
       }
     }
-  }
+  },
+  "analytics": false
 }

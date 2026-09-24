@@ -12,4 +12,7 @@ export default defineConfig({
       scss: {},
     },
   },
+  test: {
+    projects: ['packages/*/vite.config.mjs'],
+  },
 });

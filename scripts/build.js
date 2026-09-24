@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
+import { select } from '@inquirer/prompts';
 import { execSync } from 'child_process';
-import inquirer from 'inquirer';
 import { findComponent, getComponents } from './utils.js';
 
 async function main() {
@@ -10,15 +10,13 @@ async function main() {
 
   if (!component) {
     try {
-      const answer = await inquirer.prompt([
-        {
-          type: 'list',
-          name: 'component',
-          message: 'Which component would you like to build?',
-          choices: ['All', ...components],
-        },
-      ]);
-      component = answer.component;
+      component = await select({
+        message: 'Which component would you like to build?',
+        choices: ['All', ...components].map((choice) => ({
+          name: choice,
+          value: choice,
+        })),
+      });
     } catch (error) {
       if (error.isTtyError || error.name === 'ExitPromptError') {
         console.log('\nBuild cancelled.');

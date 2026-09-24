@@ -40,8 +40,8 @@ export default function (plop) {
       },
       {
         type: 'add',
-        path: '../../packages/{{pascalCase name}}/vite.config.js',
-        templateFile: 'plop/vite.config.js.hbs',
+        path: '../../packages/{{pascalCase name}}/vite.config.mjs',
+        templateFile: 'plop/vite.config.mjs.hbs',
       },
       {
         type: 'add',

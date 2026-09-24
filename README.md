@@ -7,7 +7,7 @@ A monorepo component library built with React, Vite, Storybook, and NX.
 ### Installation
 
 ```bash
-yarn install
+npm install
 ```
 
 ## Available Scripts
@@ -19,7 +19,7 @@ Build components and/or Storybook static site.
 **Interactive Mode:**
 
 ```bash
-yarn build
+npm run build
 ```
 
 This will present an interactive prompt where you can select:
@@ -34,10 +34,10 @@ This will present an interactive prompt where you can select:
 > Note: Not case sensitive.
 
 ```bash
-yarn build All          # Build all components and Storybook
-yarn build Button       # Build only Button
-yarn build button       # Build only button
-yarn build Storybook    # Build only Storybook static site
+npm run build All          # Build all components and Storybook
+npm run build Button       # Build only Button
+npm run build button       # Build only button
+npm run build Storybook    # Build only Storybook static site
 ```
 
 **Build Output:**
@@ -59,24 +59,24 @@ Run Storybook development server to view and interact with components.
 **Interactive Mode:**
 
 ```bash
-yarn storybook
+npm run start
 ```
 
 This will present an interactive prompt where you can select:
 
 - **All** - Runs Storybook with all components
-- **Button** - Runs Storybook for Button only (port 6006)
-- **Card** - Runs Storybook for Card only (port 6006)
+- **Button** - Runs Storybook for Button only (port 4000)
+- **Card** - Runs Storybook for Card only (port 4000)
 
 **Direct Mode:**
 
 > Note: Not case sensitive.
 
 ```bash
-yarn storybook All      # All components (port 6006)
-yarn storybook Button   # Button only (port 6006)
-yarn storybook button   # Button only (port 6006)
-yarn storybook Card     # Card only (port 6006)
+npm run start All      # All components (port 4000)
+npm run start Button   # Button only (port 4000)
+npm run start button   # Button only (port 4000)
+npm run start Card     # Card only (port 4000)
 ```
 
 ## Project Structure
@@ -89,13 +89,13 @@ react-component-library/
 │   │   ├── src/
 │   │   ├── package.json
 │   │   ├── project.json
-│   │   └── vite.config.js
+│   │   └── vite.config.mjs
 │   ├── Card/             # Card component
 │   │   ├── .storybook/   # Card-specific Storybook config
 │   │   ├── src/
 │   │   ├── package.json
 │   │   ├── project.json
-│   │   └── vite.config.js
+│   │   └── vite.config.mjs
 │   └── Storybook/        # Centralized Storybook
 │       ├── .storybook/   # Main Storybook config
 │       ├── package.json
@@ -126,35 +126,39 @@ react-component-library/
 
 No need to update any scripts - they dynamically read from the packages directory!
 
-## Local Development with yarn link
+## Local Development with npm run link
 
 To test components in another project locally:
 
 **1. Build and link all packages:**
+
 ```bash
-yarn build
-yarn link-all
+npm run build
+npm run link-all
 ```
 
 **2. In your other project, link the packages you need:**
+
 ```bash
-yarn link @react-component-library/button
-yarn link @react-component-library/card
-yarn link @react-component-library/foo
+npm run link @react-component-library/button
+npm run link @react-component-library/card
+npm run link @react-component-library/foo
 ```
 
 **3. After making changes, rebuild to see updates:**
+
 ```bash
-yarn build
+npm run build
 ```
 
 **4. When done, unlink:**
+
 ```bash
 # In your other project
-yarn unlink @react-component-library/button
+npm run unlink @react-component-library/button
 
 # In this project
-yarn unlink-all
+npm run unlink-all
 ```
 
 ## Publishing
@@ -162,7 +166,7 @@ yarn unlink-all
 Each component is built as a standalone package ready for npm publishing:
 
 ```bash
-yarn build <component>
+npm run build <component>
 cd dist/packages/<ComponentName>
-npm publish  # or yarn publish
+npm publish  # or npm run publish
 ```

@@ -2,6 +2,7 @@ import react from '@vitejs/plugin-react';
 import { copyFileSync, readFileSync } from 'fs';
 import { dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
+import { generatePackageAliases } from './utils.js';
 
 /**
  * Shared React plugin configuration
@@ -31,7 +32,7 @@ export function createCopyPackageJsonPlugin(componentName, packageDir) {
     closeBundle() {
       copyFileSync(
         resolve(packageDir, 'package.json'),
-        resolve(packageDir, `../../dist/packages/${componentName}/package.json`)
+        resolve(packageDir, `../../dist/packages/${componentName}/package.json`),
       );
     },
   };
@@ -85,6 +86,13 @@ export function createComponentViteConfig(componentName, packageUrl) {
   return {
     plugins: [reactPlugin, createCopyPackageJsonPlugin(componentName, __dirname)],
     build: createComponentBuildConfig(componentName, packageUrl),
+    // Alias sibling packages to their source so tests don't require a prior build/link
+    resolve: process.env.VITEST ? { alias: generatePackageAliases() } : undefined,
     css: cssConfig,
+    test: {
+      globals: true,
+      environment: 'jsdom',
+      setupFiles: [fileURLToPath(new URL('./vitestSetup.js', import.meta.url))],
+    },
   };
 }

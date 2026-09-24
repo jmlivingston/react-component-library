@@ -1,4 +1,4 @@
-import { readdirSync, statSync } from 'fs';
+import { readdirSync, readFileSync, statSync } from 'fs';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -27,4 +27,29 @@ export function getComponents() {
 export function findComponent(input) {
   const components = getComponents();
   return components.find((component) => component.toLowerCase() === input.toLowerCase()) || null;
+}
+
+/**
+ * Generate resolve aliases mapping each package's published name to its source entry point
+ * Lets consumers (Storybook, Vitest) resolve sibling packages without a prior build/link
+ * @param {string} [excludeName] - Directory name to exclude from aliasing (e.g. "Storybook")
+ * @returns {Object<string, string>} Map of package name -> absolute path to its src/index.js
+ */
+export function generatePackageAliases(excludeName = 'Storybook') {
+  const packagesDir = join(__dirname, '../packages');
+  const packages = readdirSync(packagesDir, { withFileTypes: true }).filter(
+    (dirent) => dirent.isDirectory() && dirent.name !== excludeName,
+  );
+
+  const aliases = {};
+
+  for (const pkg of packages) {
+    const packageJsonPath = join(packagesDir, pkg.name, 'package.json');
+    const projectJsonPath = join(packagesDir, pkg.name, 'project.json');
+    const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
+    const projectJson = JSON.parse(readFileSync(projectJsonPath, 'utf-8'));
+    aliases[packageJson.name] = join(__dirname, '..', projectJson.sourceRoot, 'index.js');
+  }
+
+  return aliases;
 }

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-import { readdirSync } from 'fs';
 import { execSync } from 'child_process';
+import { readdirSync } from 'fs';
 import { join } from 'path';
 
 const distPackagesDir = 'dist/packages';
@@ -18,14 +18,14 @@ try {
     .map((dirent) => dirent.name);
 
   if (packages.length === 0) {
-    console.log('No packages found to link. Run "yarn build" first.');
+    console.log('No packages found to link. Run "npm run build" first.');
     process.exit(0);
   }
 
   packages.forEach((pkg) => {
     const pkgPath = join(distPackagesDir, pkg);
     console.log(`${action === 'link' ? 'Linking' : 'Unlinking'} ${pkg}...`);
-    execSync(`yarn ${action}`, { cwd: pkgPath, stdio: 'inherit' });
+    execSync(`npm run ${action}`, { cwd: pkgPath, stdio: 'inherit' });
   });
 
   console.log(`\n✓ Successfully ${action}ed ${packages.length} package(s): ${packages.join(', ')}`);
@@ -33,12 +33,12 @@ try {
   if (action === 'link') {
     console.log('\nTo use in another project, run:');
     packages.forEach((pkg) => {
-      console.log(`  yarn link @react-component-library/${pkg.toLowerCase()}`);
+      console.log(`  npm link @react-component-library/${pkg.toLowerCase()}`);
     });
   } else {
     console.log('\nPackages unlinked. Remember to also unlink in your other project:');
     packages.forEach((pkg) => {
-      console.log(`  yarn unlink @react-component-library/${pkg.toLowerCase()}`);
+      console.log(`  npm unlink @react-component-library/${pkg.toLowerCase()}`);
     });
   }
 } catch (error) {

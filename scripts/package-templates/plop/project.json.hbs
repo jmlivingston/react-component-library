@@ -13,13 +13,6 @@
         "cwd": "packages/{{pascalCase name}}"
       }
     },
-    "storybook": {
-      "executor": "@nx/storybook:storybook",
-      "options": {
-        "configDir": "packages/{{pascalCase name}}/.storybook",
-        "port": 6006
-      }
-    },
     "nx-release-publish": {
       "options": {
         "packageRoot": "dist/{projectRoot}"
