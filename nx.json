@@ -25,16 +25,35 @@
       }
     }
   ],
-  "release": {
-    "version": {
-      "preVersionCommand": "npx nx run-many -t build"
+  "namedInputs": {
+    "default": ["{projectRoot}/**/*", "sharedGlobals"],
+    "sharedGlobals": [
+      "{workspaceRoot}/scripts/packageInfo.js",
+      "{workspaceRoot}/scripts/viteConfig.js",
+      "{workspaceRoot}/scripts/storybookConfig.js"
+    ],
+    "production": [
+      "default",
+      "!{projectRoot}/**/*.test.jsx",
+      "!{projectRoot}/**/*.stories.jsx",
+      "!{projectRoot}/.storybook/**/*"
+    ]
+  },
+  "targetDefaults": {
+    "nx-release-publish": {
+      "options": {
+        "packageRoot": "dist/{projectRoot}"
+      }
     }
   },
-  "generators": {
-    "@nx/react": {
-      "library": {
-        "unitTestRunner": "vitest"
-      }
+  "release": {
+    "projects": ["*", "!react-component-library", "!@react-component-library/storybook"],
+    "version": {
+      "preVersionCommand": "npx nx run-many -t build",
+      "manifestRootsToUpdate": ["dist/{projectRoot}"],
+      "currentVersionResolver": "git-tag",
+      "fallbackCurrentVersionResolver": "disk",
+      "preserveMatchingDependencyRanges": false
     }
   },
   "analytics": false

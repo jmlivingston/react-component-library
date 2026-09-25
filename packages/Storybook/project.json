@@ -4,6 +4,7 @@
   "sourceRoot": "packages/Storybook",
   "projectType": "application",
   "tags": [],
+  "implicitDependencies": ["*", "!react-component-library"],
   "targets": {
     "storybook": {
       "executor": "nx:run-commands",
@@ -14,6 +15,8 @@
     },
     "build-storybook": {
       "executor": "nx:run-commands",
+      "cache": true,
+      "inputs": ["default", "^default", { "externalDependencies": ["storybook"] }],
       "outputs": ["{workspaceRoot}/dist/packages/Storybook"],
       "options": {
         "command": "storybook build --output-dir ../../dist/packages/Storybook",

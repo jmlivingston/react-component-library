@@ -79,6 +79,53 @@ npm run start button   # Button only (port 4000)
 npm run start Card     # Card only (port 4000)
 ```
 
+### Test
+
+Run the Vitest suites.
+
+**Interactive Mode:**
+
+```bash
+npm test
+```
+
+This will present an interactive prompt where you can select:
+
+- **All** - Runs every test suite (all components and scripts)
+- **Button** - Runs the Button tests only
+- **Card** - Runs the Card tests only
+- **Scripts** - Runs the build script tests only
+
+**Direct Mode:**
+
+> Note: Not case sensitive.
+
+```bash
+npm test all       # Everything
+npm test button    # Button only
+npm test scripts   # Build scripts only
+```
+
+### Lint
+
+Run ESLint with the recommended JavaScript, React and React Hooks rules. `console` calls are errors in component code.
+
+**Interactive Mode:**
+
+```bash
+npm run lint
+```
+
+**Direct Mode:**
+
+> Note: Not case sensitive.
+
+```bash
+npm run lint all       # Everything
+npm run lint button    # Button only
+npm run lint scripts   # Build scripts only
+```
+
 ## Project Structure
 
 ```
@@ -101,9 +148,8 @@ react-component-library/
 │       ├── package.json
 │       └── project.json
 ├── scripts/              # Build and utility scripts
-│   ├── build.js
-│   ├── storybook.js
-│   └── utils.js
+│   ├── packageCommands.js
+│   └── packageInfo.js
 ├── dist/                 # Build output (generated)
 └── package.json
 ```

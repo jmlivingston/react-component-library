@@ -1,94 +1,51 @@
 import react from '@vitejs/plugin-react';
 import { copyFileSync, readFileSync } from 'fs';
-import { dirname, resolve } from 'path';
+import { basename, dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
-import { generatePackageAliases } from './utils.js';
+import { findComponentPackage, listComponentPackages } from './packageInfo.js';
 
 /**
- * Shared React plugin configuration
+ * Create the Vite config for a component package
+ * @param {string} packageUrl - import.meta.url of the calling vite.config.mjs
  */
-export const reactPlugin = react({
-  jsxRuntime: 'automatic',
-});
-
-/**
- * Shared CSS preprocessor configuration
- */
-export const cssConfig = {
-  preprocessorOptions: {
-    scss: {},
-  },
-};
-
-/**
- * Create a Vite plugin to copy package.json to the dist folder
- * @param {string} componentName - Name of the component (e.g., "Button", "Card")
- * @param {string} packageDir - Directory path of the package
- * @returns {Object} Vite plugin
- */
-export function createCopyPackageJsonPlugin(componentName, packageDir) {
-  return {
-    name: 'copy-package-json',
-    closeBundle() {
-      copyFileSync(
-        resolve(packageDir, 'package.json'),
-        resolve(packageDir, `../../dist/packages/${componentName}/package.json`),
-      );
-    },
-  };
-}
-
-/**
- * Create a library build configuration for a component
- * @param {string} componentName - Name of the component (e.g., "Button", "Card")
- * @param {string} packageDir - Directory path of the package (use import.meta.url)
- * @returns {Object} Vite build configuration
- */
-export function createComponentBuildConfig(componentName, packageDir) {
-  const __dirname = dirname(fileURLToPath(packageDir));
-
-  // Read peerDependencies from package.json
-  const packageJsonPath = resolve(__dirname, 'package.json');
-  const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
-  const peerDeps = Object.keys(packageJson.peerDependencies || {});
+export function createComponentViteConfig(packageUrl) {
+  const packageDir = dirname(fileURLToPath(packageUrl));
+  const root = resolve(packageDir, '../..');
+  const pkg = findComponentPackage(basename(packageDir), { root });
+  if (!pkg) {
+    throw new Error(`No component package found at ${packageDir}`);
+  }
+  const packageJson = JSON.parse(readFileSync(resolve(packageDir, 'package.json'), 'utf-8'));
+  const peerDeps = Object.keys(packageJson.peerDependencies ?? {});
 
   return {
-    sourcemap: true,
-    lib: {
-      entry: resolve(__dirname, 'src/index.js'),
-      name: componentName,
-      fileName: (format) => `index.${format === 'es' ? 'mjs' : 'js'}`,
-      formats: ['es', 'cjs'],
-    },
-    rollupOptions: {
-      external: peerDeps,
-      output: {
-        globals: {
-          react: 'React',
-          'react-dom': 'ReactDOM',
+    plugins: [
+      react(),
+      {
+        name: 'copy-package-json',
+        closeBundle() {
+          copyFileSync(resolve(packageDir, 'package.json'), resolve(pkg.distDir, 'package.json'));
         },
       },
+    ],
+    build: {
+      sourcemap: true,
+      lib: {
+        entry: pkg.sourceEntry,
+        fileName: (format) => `index.${format === 'es' ? 'mjs' : 'js'}`,
+        formats: ['es', 'cjs'],
+      },
+      rolldownOptions: {
+        // Subpaths such as react/jsx-runtime must stay external too, or React gets bundled.
+        external: (id) => peerDeps.some((dep) => id === dep || id.startsWith(`${dep}/`)),
+      },
+      outDir: pkg.distDir,
+      emptyOutDir: true,
     },
-    outDir: `../../dist/packages/${componentName}`,
-    emptyOutDir: true,
-  };
-}
-
-/**
- * Create a complete Vite config for a component package
- * @param {string} componentName - Name of the component (e.g., "Button", "Card")
- * @param {string} packageUrl - import.meta.url of the calling vite.config.js
- * @returns {Object} Complete Vite configuration
- */
-export function createComponentViteConfig(componentName, packageUrl) {
-  const __dirname = dirname(fileURLToPath(packageUrl));
-
-  return {
-    plugins: [reactPlugin, createCopyPackageJsonPlugin(componentName, __dirname)],
-    build: createComponentBuildConfig(componentName, packageUrl),
     // Alias sibling packages to their source so tests don't require a prior build/link
-    resolve: process.env.VITEST ? { alias: generatePackageAliases() } : undefined,
-    css: cssConfig,
+    resolve: process.env.VITEST
+      ? { alias: Object.fromEntries(listComponentPackages({ root }).map((p) => [p.npmName, p.sourceEntry])) }
+      : undefined,
     test: {
       globals: true,
       environment: 'jsdom',

@@ -4,8 +4,10 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "start": "node scripts/storybook",
-    "build": "node scripts/build",
+    "start": "node scripts/packageCommands.js storybook",
+    "build": "node scripts/packageCommands.js build",
+    "test": "node scripts/packageCommands.js test",
+    "lint": "node scripts/packageCommands.js lint",
     "prettier": "prettier --write \"**/*.{js,json,md,scss}\"",
     "clear-cache": "nx reset",
     "create-package": "plop --plopfile scripts/package-templates/plopfile.js",
@@ -17,13 +19,11 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "@eslint/js": "^10.0.1",
+    "@eslint/js": "^9.39.5",
     "@inquirer/prompts": "^8.7.2",
-    "@nx/react": "^23.2.1",
     "@nx/storybook": "^23.2.1",
     "@nx/vite": "^23.2.1",
     "@storybook/addon-docs": "^10.6.0",
-    "@storybook/addon-links": "^10.6.0",
     "@storybook/react-vite": "^10.6.0",
     "@testing-library/dom": "^10.4.2",
     "@testing-library/jest-dom": "^6.9.1",
@@ -31,14 +31,16 @@
     "@vitejs/plugin-react": "^6.1.1",
     "@vitest/coverage-v8": "^5.0.1",
     "@vitest/ui": "^5.0.1",
-    "inquirer": "^14.2.2",
+    "eslint": "^9.39.5",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "globals": "^17.12.0",
     "jsdom": "^30.1.1",
     "nx": "^23.2.1",
     "plop": "^4.0.5",
     "prettier": "^3.9.9",
     "sass-embedded": "^1.105.0",
     "storybook": "^10.6.0",
-    "typescript": "^5.9.3",
     "vite": "^8.3.1",
     "vitest": "^5.0.1"
   },
@@ -49,5 +51,14 @@
   "prettier": {
     "printWidth": 120,
     "singleQuote": true
+  },
+  "nx": {
+    "includedScripts": []
+  },
+  "allowScripts": {
+    "@parcel/watcher": false,
+    "esbuild": false,
+    "fsevents": false,
+    "nx": false
   }
 }

@@ -2,28 +2,5 @@
   "name": "button",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/Button/src",
-  "projectType": "library",
-  "tags": [],
-  "targets": {
-    "build": {
-      "executor": "nx:run-commands",
-      "outputs": ["{workspaceRoot}/dist/packages/Button"],
-      "options": {
-        "command": "vite build",
-        "cwd": "packages/Button"
-      }
-    },
-    "nx-release-publish": {
-      "options": {
-        "packageRoot": "dist/{projectRoot}"
-      }
-    }
-  },
-  "release": {
-    "version": {
-      "manifestRootsToUpdate": ["dist/{projectRoot}"],
-      "currentVersionResolver": "git-tag",
-      "fallbackCurrentVersionResolver": "disk"
-    }
-  }
+  "projectType": "library"
 }

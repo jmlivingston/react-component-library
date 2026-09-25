@@ -2,28 +2,5 @@
   "name": "{{camelCase name}}",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/{{pascalCase name}}/src",
-  "projectType": "library",
-  "tags": [],
-  "targets": {
-    "build": {
-      "executor": "nx:run-commands",
-      "outputs": ["{workspaceRoot}/dist/packages/{{pascalCase name}}"],
-      "options": {
-        "command": "vite build",
-        "cwd": "packages/{{pascalCase name}}"
-      }
-    },
-    "nx-release-publish": {
-      "options": {
-        "packageRoot": "dist/{projectRoot}"
-      }
-    }
-  },
-  "release": {
-    "version": {
-      "manifestRootsToUpdate": ["dist/{projectRoot}"],
-      "currentVersionResolver": "git-tag",
-      "fallbackCurrentVersionResolver": "disk"
-    }
-  }
+  "projectType": "library"
 }
