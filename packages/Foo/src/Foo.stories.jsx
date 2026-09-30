@@ -1,9 +1,9 @@
-import Foo from "./Foo";
+import Foo from './Foo';
 
 export default {
-  title: "Foo",
+  title: 'Foo',
   component: Foo,
-  tags: ["autodocs"],
+  tags: ['autodocs'],
   argTypes: {},
 };
 

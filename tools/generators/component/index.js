@@ -1,22 +1,18 @@
-import { generateFiles, names, OverwriteStrategy, readJson } from "@nx/devkit";
-import { fileURLToPath } from "url";
+import { generateFiles, names, OverwriteStrategy, readJson } from '@nx/devkit';
+import { fileURLToPath } from 'url';
 
 function getNpmScope(tree) {
-  const packageName = readJson(tree, "package.json").name;
+  const packageName = readJson(tree, 'package.json').name;
   const scope = packageName?.match(/^(@[^/]+)\//)?.[1];
   if (!scope) {
-    throw new Error(
-      'Root package.json name must use an npm scope (e.g., "@my-org/root")',
-    );
+    throw new Error('Root package.json name must use an npm scope (e.g., "@my-org/root")');
   }
   return scope;
 }
 
 export default function componentGenerator(tree, { name }) {
-  if (typeof name !== "string" || !/^[A-Z][a-zA-Z0-9]*$/.test(name)) {
-    throw new Error(
-      "Component name must be in PascalCase (e.g., Button, MyComponent)",
-    );
+  if (typeof name !== 'string' || !/^[A-Z][a-zA-Z0-9]*$/.test(name)) {
+    throw new Error('Component name must be in PascalCase (e.g., Button, MyComponent)');
   }
 
   const packageRoot = `packages/${name}`;
@@ -26,9 +22,9 @@ export default function componentGenerator(tree, { name }) {
 
   generateFiles(
     tree,
-    fileURLToPath(new URL("./files", import.meta.url)),
+    fileURLToPath(new URL('./files', import.meta.url)),
     packageRoot,
-    { ...names(name), npmScope: getNpmScope(tree), tmpl: "" },
+    { ...names(name), npmScope: getNpmScope(tree), tmpl: '' },
     { overwriteStrategy: OverwriteStrategy.ThrowIfExisting },
   );
 }

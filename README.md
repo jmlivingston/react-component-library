@@ -90,7 +90,7 @@ react-component-library/
 Generate a component package with the workspace Nx generator:
 
 ```bash
-npm run create -- --name=MyComponent
+npm run create-component -- --name=MyComponent
 # or: npx nx generate react-component-library:component --name=MyComponent
 ```
 
@@ -123,3 +123,9 @@ npm run build
 cd dist/packages/Button
 npm publish
 ```
+
+## TODO
+
+- husky
+- github actions for build deploy to npm
+- css

@@ -1,4 +1,4 @@
-import "./<%= className %>.scss";
+import "./<%= className %>.css";
 
 function <%= className %>() {
   return (
