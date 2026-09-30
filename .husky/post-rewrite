@@ -1,0 +1,4 @@
+[ "$1" = "rebase" ] || exit 0
+read old_sha _ < /dev/stdin
+git diff --name-only "$old_sha" HEAD | grep --quiet '^package-lock\.json$' && npm install
+exit 0
