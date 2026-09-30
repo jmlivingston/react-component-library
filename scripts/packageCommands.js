@@ -5,34 +5,6 @@ import { fileURLToPath } from 'url';
 import { findComponentPackage, getStorybook, listComponentPackages } from './packageInfo.js';
 import { STORYBOOK_PORT } from './storybookConfig.js';
 
-export const buildTarget = {
-  promptMessage: 'Which component would you like to build?',
-  cancelMessage: 'Build cancelled.',
-  choices({ root } = {}) {
-    return ['All', ...listComponentPackages({ root }).map((pkg) => pkg.dir), 'Storybook'];
-  },
-  plan(input, { root } = {}) {
-    const buildStorybook = () => `nx run ${getStorybook({ root }).projectName}:build`;
-
-    if (input.toLowerCase() === 'all') {
-      const projectNames = listComponentPackages({ root }).map((pkg) => pkg.projectName);
-      return {
-        message: 'Building all components...',
-        // run-many -p only targets the listed component packages, so Storybook needs its own build call.
-        commands: [`nx run-many -t build -p ${projectNames.join(' ')}`, buildStorybook()],
-      };
-    }
-    if (input.toLowerCase() === 'storybook') {
-      return { message: 'Building Storybook...', commands: [buildStorybook()] };
-    }
-    const pkg = findComponentPackage(input, { root });
-    if (pkg) {
-      return { message: `Building ${pkg.dir}...`, commands: [`nx run ${pkg.projectName}:build`] };
-    }
-    return { unknown: true, choices: buildTarget.choices({ root }) };
-  },
-};
-
 export const storybookTarget = {
   promptMessage: "Which component's Storybook would you like to run?",
   cancelMessage: 'Storybook cancelled.',
@@ -136,7 +108,7 @@ async function runTarget(target, input) {
   }
 }
 
-const targets = { build: buildTarget, storybook: storybookTarget, test: testTarget, lint: lintTarget };
+const targets = { storybook: storybookTarget, test: testTarget, lint: lintTarget };
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const [targetName, input] = process.argv.slice(2);

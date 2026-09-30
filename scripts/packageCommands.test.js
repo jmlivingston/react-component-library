@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it } from 'vitest';
-import { buildTarget, lintTarget, storybookTarget, testTarget } from './packageCommands.js';
+import { lintTarget, storybookTarget, testTarget } from './packageCommands.js';
 import { componentPackage, createRepo, removeRepos, storybookPackage } from './testRepo.js';
 
 afterEach(removeRepos);
@@ -11,45 +11,6 @@ function createLibraryRepo() {
     Storybook: storybookPackage(),
   });
 }
-
-describe('buildTarget', () => {
-  it('offers All, each component package, then Storybook', () => {
-    const root = createLibraryRepo();
-    expect(buildTarget.choices({ root })).toEqual(['All', 'Button', 'MyThing', 'Storybook']);
-  });
-
-  it('builds every component package, then Storybook, for All', () => {
-    const root = createLibraryRepo();
-    expect(buildTarget.plan('all', { root })).toEqual({
-      message: 'Building all components...',
-      commands: ['nx run-many -t build -p button myThing', 'nx run @react-component-library/storybook:build'],
-    });
-  });
-
-  it('builds only Storybook for storybook in any casing', () => {
-    const root = createLibraryRepo();
-    expect(buildTarget.plan('STORYBOOK', { root })).toEqual({
-      message: 'Building Storybook...',
-      commands: ['nx run @react-component-library/storybook:build'],
-    });
-  });
-
-  it.each(['MyThing', 'my-thing'])('builds the component package named %s', (input) => {
-    const root = createLibraryRepo();
-    expect(buildTarget.plan(input, { root })).toEqual({
-      message: 'Building MyThing...',
-      commands: ['nx run myThing:build'],
-    });
-  });
-
-  it('reports an unknown name with the available choices', () => {
-    const root = createLibraryRepo();
-    expect(buildTarget.plan('XyzAbc', { root })).toEqual({
-      unknown: true,
-      choices: ['All', 'Button', 'MyThing', 'Storybook'],
-    });
-  });
-});
 
 describe('storybookTarget', () => {
   it('offers All and each component package', () => {
