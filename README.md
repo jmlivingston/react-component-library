@@ -99,6 +99,23 @@ the component, styles, test, story, package metadata, and Nx configuration.
 
 No need to update any scripts - they dynamically read from the packages directory!
 
+Create a shared CSS package with:
+
+```bash
+npm run create-css -- --name=DesignTokens
+# or: npx nx generate @react-component-library/root:css --name=DesignTokens
+```
+
+Import its stylesheet from a component package to include the shared styles in
+that package's CSS build:
+
+```css
+@import '@react-component-library/design-tokens/style.css';
+```
+
+The generated package also exposes its built stylesheet as
+`@react-component-library/design-tokens/style.css`.
+
 ## Debugging in Another Project
 
 Install the built package in the consuming project, then watch and rebuild it here:
@@ -128,4 +145,3 @@ npm publish
 
 - husky
 - github actions for build deploy to npm
-- css

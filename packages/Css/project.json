@@ -1,0 +1,21 @@
+{
+  "name": "css",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/Css/src",
+  "projectType": "library",
+  "targets": {
+    "format": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "prettier --write .",
+        "cwd": "packages/Css"
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "eslint --cache --cache-location node_modules/.cache/eslint/ packages/Css"
+      }
+    }
+  }
+}

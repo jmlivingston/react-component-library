@@ -2,7 +2,7 @@ import { join } from 'path';
 import { pathToFileURL } from 'url';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { componentPackage, createRepo, removeRepos, storybookPackage } from './testRepo.js';
-import { createComponentViteConfig } from './viteConfig.js';
+import { createComponentViteConfig, createCssViteConfig } from './viteConfig.js';
 
 afterEach(() => {
   removeRepos();
@@ -30,6 +30,27 @@ function configFor(root, dir) {
   return createComponentViteConfig(pathToFileURL(join(root, 'packages', dir, 'vite.config.mjs')).href);
 }
 
+describe('createCssViteConfig', () => {
+  it('builds every package stylesheet with its original name', () => {
+    const root = createRepo({
+      DesignTokens: {
+        ...componentPackage('DesignTokens', 'designTokens', '@react-component-library/design-tokens'),
+        'src/styles.css': ':root {}',
+        'src/foo.css': '.foo {}',
+      },
+    });
+    const config = createCssViteConfig(pathToFileURL(join(root, 'packages', 'DesignTokens', 'vite.config.mjs')).href);
+
+    expect(config.build.cssCodeSplit).toBe(true);
+    expect(config.build.lib.entry).toEqual({
+      foo: join(root, 'packages/DesignTokens/src/foo.css'),
+      styles: join(root, 'packages/DesignTokens/src/styles.css'),
+    });
+    expect(config.build.lib.formats).toEqual(['es']);
+    expect(config.build.outDir).toBe(join(root, 'dist/packages/DesignTokens'));
+  });
+});
+
 describe('createComponentViteConfig', () => {
   it('builds the package from its source entry into its dist directory', () => {
     const root = createLibraryRepo();
@@ -37,6 +58,7 @@ describe('createComponentViteConfig', () => {
 
     expect(build.outDir).toBe(join(root, 'dist/packages/MyThing'));
     expect(build.lib.entry).toBe(join(root, 'packages/MyThing/src/index.js'));
+    expect(build.lib.cssFileName).toBe('MyThing');
   });
 
   it('keeps peer dependencies and their subpaths out of the bundle', () => {
@@ -54,13 +76,26 @@ describe('createComponentViteConfig', () => {
     const root = createLibraryRepo();
     expect(configFor(root, 'MyThing').resolve.alias).toEqual({
       '@react-component-library/button': join(root, 'packages/Button/src/index.js'),
+      '@react-component-library/button/style.css': join(root, 'packages/Button/src/Button.css'),
       '@react-component-library/my-thing': join(root, 'packages/MyThing/src/index.js'),
+      '@react-component-library/my-thing/style.css': join(root, 'packages/MyThing/src/MyThing.css'),
     });
+  });
+
+  it('aliases package stylesheet exports to their source CSS outside Vitest', () => {
+    vi.stubEnv('VITEST', '');
+    const root = createLibraryRepo();
+    const { alias } = configFor(root, 'MyThing').resolve;
+
+    expect(alias['@react-component-library/button/style.css']).toBe(join(root, 'packages/Button/src/Button.css'));
+    expect(alias['@react-component-library/my-thing/style.css']).toBe(join(root, 'packages/MyThing/src/MyThing.css'));
   });
 
   it('leaves resolution alone outside Vitest', () => {
     vi.stubEnv('VITEST', '');
     const root = createLibraryRepo();
-    expect(configFor(root, 'MyThing').resolve).toBeUndefined();
+    const { alias } = configFor(root, 'MyThing').resolve;
+
+    expect(alias).not.toHaveProperty('@react-component-library/my-thing');
   });
 });

@@ -3,7 +3,7 @@
  * This config is used across all component-specific and centralized Storybook instances
  */
 
-import { listComponentPackages } from './packageInfo.js';
+import { listComponentPackages, listComponentStylesheetAliases } from './packageInfo.js';
 
 export const sharedStorybookConfig = {
   addons: ['@storybook/addon-docs'],
@@ -22,6 +22,7 @@ export const sharedStorybookConfig = {
         ...config.resolve,
         alias: {
           ...config.resolve?.alias,
+          ...listComponentStylesheetAliases(),
           ...Object.fromEntries(listComponentPackages().map(({ npmName, sourceEntry }) => [npmName, sourceEntry])),
         },
       },

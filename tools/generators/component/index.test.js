@@ -27,9 +27,12 @@ describe('component generator', () => {
         'packages/MyThing/vite.config.mjs',
       ].sort(),
     );
-    expect(JSON.parse(tree.read('packages/MyThing/package.json', 'utf-8')).name).toBe(
-      '@react-component-library/my-thing',
-    );
+    const packageJson = JSON.parse(tree.read('packages/MyThing/package.json', 'utf-8'));
+    expect(packageJson.name).toBe('@react-component-library/my-thing');
+    expect(packageJson.exports).toMatchObject({
+      './*.css': './*.css',
+    });
+    expect(packageJson.files).toContain('*.css');
     expect(JSON.parse(tree.read('packages/MyThing/project.json', 'utf-8'))).toMatchObject({
       name: 'myThing',
       sourceRoot: 'packages/MyThing/src',

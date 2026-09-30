@@ -12,7 +12,8 @@
     "lint": "nx run-many -t lint --projects",
     "format": "nx run-many -t format --projects",
     "clear-cache": "nx reset",
-    "create-component": "nx generate @react-component-library/root:component"
+    "create-component": "nx generate @react-component-library/root:component",
+    "create-css": "nx generate @react-component-library/root:css"
   },
   "keywords": [],
   "author": "John Livingston",
@@ -45,6 +46,12 @@
   "dependencies": {
     "react": "^19.3.0",
     "react-dom": "^19.3.0"
+  },
+  "allowScripts": {
+    "@parcel/watcher": false,
+    "esbuild": false,
+    "fsevents": false,
+    "nx": false
   },
   "nx": {
     "includedScripts": []

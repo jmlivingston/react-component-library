@@ -4,6 +4,11 @@
       "factory": "./component/index.js",
       "schema": "./component/schema.json",
       "description": "Create a new component package"
+    },
+    "css": {
+      "factory": "./css/index.js",
+      "schema": "./css/schema.json",
+      "description": "Create a CSS package"
     }
   }
 }

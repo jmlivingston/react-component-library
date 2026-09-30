@@ -1,6 +1,6 @@
 import { join } from 'path';
 import { afterEach, describe, expect, it } from 'vitest';
-import { findComponentPackage, listComponentPackages } from './packageInfo.js';
+import { findComponentPackage, listComponentPackages, listComponentStylesheetAliases } from './packageInfo.js';
 import { componentPackage, createRepo, removeRepos, storybookPackage } from './testRepo.js';
 
 afterEach(removeRepos);
@@ -77,5 +77,30 @@ describe('findComponentPackage', () => {
   it('does not find Storybook', () => {
     const root = createMyThingRepo();
     expect(findComponentPackage('Storybook', { root })).toBeNull();
+  });
+});
+
+describe('listComponentStylesheetAliases', () => {
+  it('maps each package style export to its source stylesheet', () => {
+    const root = createRepo({
+      Button: componentPackage('Button', 'button', '@react-component-library/button'),
+      Css: {
+        ...componentPackage('Css', 'css', '@react-component-library/css'),
+        'package.json': {
+          name: '@react-component-library/css',
+          exports: { '.': './styles.css' },
+        },
+        'src/styles.css': ':root {}',
+        'src/foo.css': '.foo {}',
+      },
+      Storybook: storybookPackage(),
+    });
+
+    expect(listComponentStylesheetAliases({ root })).toEqual({
+      '@react-component-library/button/style.css': join(root, 'packages/Button/src/Button.css'),
+      '@react-component-library/css/style.css': join(root, 'packages/Css/src/styles.css'),
+      '@react-component-library/css/styles.css': join(root, 'packages/Css/src/styles.css'),
+      '@react-component-library/css/foo.css': join(root, 'packages/Css/src/foo.css'),
+    });
   });
 });

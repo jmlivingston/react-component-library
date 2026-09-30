@@ -1,3 +1,5 @@
+@import '@react-component-library/css/styles.css';
+
 .button {
   padding: 0.5rem 1.5rem;
   border: none;
@@ -8,7 +10,7 @@
 }
 
 .primary {
-  background: #0070f3;
+  background: var(--primary-background);
   color: #fff;
 }
 
