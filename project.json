@@ -17,7 +17,7 @@
     "lint": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "eslint --cache --cache-location node_modules/.cache/eslint/ eslint.config.js vite.config.js scripts tools"
+        "command": "eslint --fix --cache --cache-location node_modules/.cache/eslint/ eslint.config.js vite.config.js scripts tools"
       }
     },
     "local-registry": {

@@ -20,7 +20,7 @@
     "lint": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "eslint --cache --cache-location node_modules/.cache/eslint/ packages/<%= className %>"
+        "command": "eslint --fix --cache --cache-location node_modules/.cache/eslint/ packages/<%= className %>"
       }
     }
   }

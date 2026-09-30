@@ -1,0 +1,4 @@
+npx nx affected -t lint
+npx nx affected -t format
+git add -A
+npx nx affected -t test

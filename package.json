@@ -13,7 +13,8 @@
     "format": "nx run-many -t format --projects",
     "clear-cache": "nx reset",
     "create-component": "nx generate @react-component-library/root:component",
-    "create-css": "nx generate @react-component-library/root:css"
+    "create-css": "nx generate @react-component-library/root:css",
+    "prepare": "husky"
   },
   "keywords": [],
   "author": "John Livingston",
@@ -36,6 +37,7 @@
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.1.1",
     "globals": "^17.12.0",
+    "husky": "^9.1.7",
     "jsdom": "^30.1.1",
     "nx": "^23.2.1",
     "prettier": "^3.9.9",
