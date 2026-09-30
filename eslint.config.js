@@ -11,7 +11,13 @@ export default defineConfig([
     extends: [js.configs.recommended],
   },
   {
-    files: ['*.{js,mjs}', 'scripts/**/*.js', 'tools/**/*.js', 'packages/*/vite.config.mjs', 'packages/*/.storybook/**/*.mjs'],
+    files: [
+      '*.{js,mjs}',
+      'scripts/**/*.js',
+      'tools/**/*.js',
+      'packages/*/vite.config.mjs',
+      'packages/*/.storybook/**/*.mjs',
+    ],
     languageOptions: { globals: globals.node },
   },
   {
