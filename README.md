@@ -152,3 +152,7 @@ npm publish
   - CSS - CSS, SASS, Tailwind
   - Registries - npm, github packages, jsdelivr, jspm, verdaccio, jfrog, cloudsmith, azure artifacts?
   - Headless UI integration - react-aria, radix, shadcn, others?
+- name this something more agnostic than react-component-library
+- create marketing site for it
+- create youtube video?
+- post on linked in
