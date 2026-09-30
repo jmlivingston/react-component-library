@@ -1,9 +1,0 @@
-{
-  "generators": {
-    "component": {
-      "factory": "./tools/generators/component/index.js",
-      "schema": "./tools/generators/component/schema.json",
-      "description": "Create a new component package"
-    }
-  }
-}

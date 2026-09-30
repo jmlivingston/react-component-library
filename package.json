@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "generators": "./generators.json",
+  "generators": "./tools/generators/generators.json",
   "main": "index.js",
   "scripts": {
     "start": "nx run storybook:start --",
@@ -12,7 +12,7 @@
     "lint": "nx run-many -t lint --projects",
     "format": "nx run-many -t format --projects",
     "clear-cache": "nx reset",
-    "create": "nx generate react-component-library:component"
+    "create": "nx generate @react-component-library/root:component"
   },
   "keywords": [],
   "author": "John Livingston",
