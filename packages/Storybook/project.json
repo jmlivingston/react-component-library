@@ -16,7 +16,8 @@
     "start": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "sh -c 'npx nx storybook \"${1:-storybook}\"' --"
+        "command": "storybook dev --port 4000",
+        "cwd": "packages/Storybook"
       }
     },
     "build": {

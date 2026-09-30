@@ -4,7 +4,7 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "start": "storybook dev -p 4000",
+    "start": "nx run storybook:start --",
     "build": "storybook build"
   }
 }
