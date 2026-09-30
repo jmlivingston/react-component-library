@@ -143,5 +143,5 @@ npm publish
 
 ## TODO
 
-- husky
-- github actions for build deploy to npm
+- github actions for lint and test
+- github actions for publish to npm
