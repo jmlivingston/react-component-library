@@ -1,15 +1,22 @@
 {
-  "name": "@react-component-library/storybook",
+  "name": "storybook",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/Storybook",
   "projectType": "application",
   "tags": [],
   "implicitDependencies": ["*", "!react-component-library"],
   "targets": {
+    "format": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "prettier --write \"**/*.{js,jsx,mjs,json,md,scss}\"",
+        "cwd": "packages/Storybook"
+      }
+    },
     "start": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "sh -c 'npx nx storybook \"${1:-@react-component-library/storybook}\"' --"
+        "command": "sh -c 'npx nx storybook \"${1:-storybook}\"' --"
       }
     },
     "build": {

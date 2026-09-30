@@ -4,6 +4,13 @@
   "sourceRoot": "packages/Card/src",
   "projectType": "library",
   "targets": {
+    "format": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "prettier --write \"**/*.{js,jsx,mjs,json,md,scss}\"",
+        "cwd": "packages/Card"
+      }
+    },
     "test": {
       "executor": "nx:run-commands",
       "options": {

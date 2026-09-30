@@ -21,7 +21,6 @@ export default defineConfig([
     settings: { react: { version: 'detect' } },
     rules: {
       'no-console': 'error',
-      // React 19 no longer checks propTypes, so this rule would only demand dead code.
       'react/prop-types': 'off',
     },
   },

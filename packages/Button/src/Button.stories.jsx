@@ -1,28 +1,28 @@
-import Button from './Button';
+import Button from "./Button";
 
 export default {
-  title: 'Button',
+  title: "Button",
   component: Button,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   argTypes: {
     variant: {
-      control: 'radio',
-      options: ['primary', 'secondary'],
+      control: "radio",
+      options: ["primary", "secondary"],
     },
-    onClick: { action: 'clicked' },
+    onClick: { action: "clicked" },
   },
 };
 
 export const Primary = {
   args: {
-    children: 'Primary Button',
-    variant: 'primary',
+    children: "Primary Button",
+    variant: "primary",
   },
 };
 
 export const Secondary = {
   args: {
-    children: 'Secondary Button',
-    variant: 'secondary',
+    children: "Secondary Button",
+    variant: "secondary",
   },
 };

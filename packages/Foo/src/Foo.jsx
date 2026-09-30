@@ -1,5 +1,5 @@
-import Button from '@react-component-library/button';
-import './Foo.scss';
+import Button from "@react-component-library/button";
+import "./Foo.scss";
 
 function Foo() {
   return (

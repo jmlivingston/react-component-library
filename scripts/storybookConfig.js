@@ -3,12 +3,12 @@
  * This config is used across all component-specific and centralized Storybook instances
  */
 
-import { listComponentPackages } from './packageInfo.js';
+import { listComponentPackages } from "./packageInfo.js";
 
 export const sharedStorybookConfig = {
-  addons: ['@storybook/addon-docs'],
+  addons: ["@storybook/addon-docs"],
   framework: {
-    name: '@storybook/react-vite',
+    name: "@storybook/react-vite",
   },
   async viteFinal(config) {
     return {
@@ -22,7 +22,12 @@ export const sharedStorybookConfig = {
         ...config.resolve,
         alias: {
           ...config.resolve?.alias,
-          ...Object.fromEntries(listComponentPackages().map((pkg) => [pkg.npmName, pkg.sourceEntry])),
+          ...Object.fromEntries(
+            listComponentPackages().map((pkg) => [
+              pkg.npmName,
+              pkg.sourceEntry,
+            ]),
+          ),
         },
       },
     };

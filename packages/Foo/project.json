@@ -4,6 +4,13 @@
   "sourceRoot": "packages/Foo/src",
   "projectType": "library",
   "targets": {
+    "format": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "prettier --write \"**/*.{js,jsx,mjs,json,md,scss}\"",
+        "cwd": "packages/Foo"
+      }
+    },
     "test": {
       "executor": "nx:run-commands",
       "options": {

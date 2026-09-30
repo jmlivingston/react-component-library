@@ -2,6 +2,12 @@
   "name": "react-component-library",
   "$schema": "node_modules/nx/schemas/project-schema.json",
   "targets": {
+    "format": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "prettier --write \"*.{js,json,md}\" \"scripts/**/*.{js,mjs,json,md}\" \"docs/**/*.md\""
+      }
+    },
     "test": {
       "executor": "nx:run-commands",
       "options": {

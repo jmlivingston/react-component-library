@@ -4,16 +4,23 @@
   "sourceRoot": "packages/Button/src",
   "projectType": "library",
   "targets": {
-    "test": {
+    "format": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "vitest run --project @react-component-library/button"
+        "command": "prettier --write \"**/*.{js,jsx,mjs,json,md,scss}\"",
+        "cwd": "packages/Button"
       }
     },
     "lint": {
       "executor": "nx:run-commands",
       "options": {
         "command": "eslint --cache --cache-location node_modules/.cache/eslint/ packages/Button"
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "vitest run --project @react-component-library/button"
       }
     }
   }

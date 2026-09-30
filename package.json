@@ -4,19 +4,19 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "start": "nx run @react-component-library/storybook:start",
-    "build": "nx run-many -t build",
+    "start": "nx run storybook:start --",
+    "build": "nx run-many -t build --projects",
     "test": "nx run-many -t test --projects",
     "lint": "nx run-many -t lint --projects",
-    "format": "prettier --write \"**/*.{js,json,md,scss}\"",
+    "format": "nx run-many -t format --projects",
     "clear-cache": "nx reset",
     "create-package": "plop --plopfile scripts/package-templates/plopfile.js",
     "link-all": "node scripts/link.js link",
     "unlink-all": "node scripts/link.js unlink"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "John Livingston",
+  "license": "MIT",
   "description": "",
   "devDependencies": {
     "@eslint/js": "^9.39.5",
@@ -49,11 +49,5 @@
   },
   "nx": {
     "includedScripts": []
-  },
-  "allowScripts": {
-    "@parcel/watcher": false,
-    "esbuild": false,
-    "fsevents": false,
-    "nx": false
   }
 }
