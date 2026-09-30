@@ -5,6 +5,10 @@ import componentGenerator from "./index.js";
 describe("component generator", () => {
   it("creates a complete package with matching names", () => {
     const tree = createTreeWithEmptyWorkspace();
+    tree.write(
+      "package.json",
+      JSON.stringify({ name: "@react-component-library/root" }),
+    );
     componentGenerator(tree, { name: "MyThing" });
 
     expect(

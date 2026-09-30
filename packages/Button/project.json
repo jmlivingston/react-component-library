@@ -7,7 +7,7 @@
     "format": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "prettier --write \"**/*.{js,jsx,mjs,json,md,scss}\"",
+        "command": "prettier --write .",
         "cwd": "packages/Button"
       }
     },

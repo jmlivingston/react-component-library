@@ -7,20 +7,20 @@
     "format": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "prettier --write \"**/*.{js,jsx,mjs,json,md,scss}\"",
+        "command": "prettier --write .",
         "cwd": "packages/Card"
-      }
-    },
-    "test": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "vitest run --project @react-component-library/card"
       }
     },
     "lint": {
       "executor": "nx:run-commands",
       "options": {
         "command": "eslint --cache --cache-location node_modules/.cache/eslint/ packages/Card"
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "vitest run --project @react-component-library/card"
       }
     }
   }

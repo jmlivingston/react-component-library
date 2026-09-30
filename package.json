@@ -1,5 +1,6 @@
 {
-  "name": "react-component-library",
+  "name": "@react-component-library/root",
+  "private": true,
   "version": "1.0.0",
   "type": "module",
   "generators": "./generators.json",

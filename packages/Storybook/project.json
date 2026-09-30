@@ -22,7 +22,11 @@
     "build": {
       "executor": "nx:run-commands",
       "cache": true,
-      "inputs": ["default", "^default", { "externalDependencies": ["storybook"] }],
+      "inputs": [
+        "default",
+        "^default",
+        { "externalDependencies": ["storybook"] }
+      ],
       "outputs": ["{workspaceRoot}/dist/packages/Storybook"],
       "options": {
         "command": "storybook build --output-dir ../../dist/packages/Storybook",

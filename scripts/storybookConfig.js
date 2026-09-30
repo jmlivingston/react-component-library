@@ -23,9 +23,9 @@ export const sharedStorybookConfig = {
         alias: {
           ...config.resolve?.alias,
           ...Object.fromEntries(
-            listComponentPackages().map((pkg) => [
-              pkg.npmName,
-              pkg.sourceEntry,
+            listComponentPackages().map(({ npmName, sourceEntry }) => [
+              npmName,
+              sourceEntry,
             ]),
           ),
         },
