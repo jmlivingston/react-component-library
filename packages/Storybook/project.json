@@ -13,7 +13,7 @@
         "cwd": "packages/Storybook"
       }
     },
-    "build-storybook": {
+    "build": {
       "executor": "nx:run-commands",
       "cache": true,
       "inputs": ["default", "^default", { "externalDependencies": ["storybook"] }],

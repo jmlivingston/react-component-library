@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node scripts/packageCommands.js storybook",
-    "build": "node scripts/packageCommands.js build",
+    "build": "npx nx run-many -t build",
     "test": "node scripts/packageCommands.js test",
     "lint": "node scripts/packageCommands.js lint",
     "prettier": "prettier --write \"**/*.{js,json,md,scss}\"",

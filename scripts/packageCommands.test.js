@@ -22,7 +22,7 @@ describe('buildTarget', () => {
     const root = createLibraryRepo();
     expect(buildTarget.plan('all', { root })).toEqual({
       message: 'Building all components...',
-      commands: ['nx run-many -t build -p button myThing', 'nx run @react-component-library/storybook:build-storybook'],
+      commands: ['nx run-many -t build -p button myThing', 'nx run @react-component-library/storybook:build'],
     });
   });
 
@@ -30,7 +30,7 @@ describe('buildTarget', () => {
     const root = createLibraryRepo();
     expect(buildTarget.plan('STORYBOOK', { root })).toEqual({
       message: 'Building Storybook...',
-      commands: ['nx run @react-component-library/storybook:build-storybook'],
+      commands: ['nx run @react-component-library/storybook:build'],
     });
   });
 

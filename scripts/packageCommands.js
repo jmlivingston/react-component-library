@@ -12,12 +12,13 @@ export const buildTarget = {
     return ['All', ...listComponentPackages({ root }).map((pkg) => pkg.dir), 'Storybook'];
   },
   plan(input, { root } = {}) {
-    const buildStorybook = () => `nx run ${getStorybook({ root }).projectName}:build-storybook`;
+    const buildStorybook = () => `nx run ${getStorybook({ root }).projectName}:build`;
 
     if (input.toLowerCase() === 'all') {
       const projectNames = listComponentPackages({ root }).map((pkg) => pkg.projectName);
       return {
         message: 'Building all components...',
+        // run-many -p only targets the listed component packages, so Storybook needs its own build call.
         commands: [`nx run-many -t build -p ${projectNames.join(' ')}`, buildStorybook()],
       };
     }
