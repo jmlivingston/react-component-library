@@ -143,5 +143,12 @@ npm publish
 
 ## TODO
 
-- github actions for lint and test
+- add barebones vite react package we can use to test debugging
+- github actions for lint, test, etc
 - github actions for publish to npm
+- create tools for creating this and making it agnostic
+  - SPA Frameworks - React, Angular, Vue, Svelte, Solid
+  - Package managers - npm, yarn, pnpm, bun, deno
+  - CSS - CSS, SASS, Tailwind
+  - Registries - npm, github packages, jsdelivr, jspm, verdaccio, jfrog, cloudsmith, azure artifacts?
+  - Headless UI integration - react-aria, radix, shadcn, others?
