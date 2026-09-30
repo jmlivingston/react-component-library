@@ -4,5 +4,6 @@ export default defineConfig({
   test: {
     name: "scripts",
     environment: "node",
+    include: ["**/*.test.js", "../tools/**/*.test.js"],
   },
 });

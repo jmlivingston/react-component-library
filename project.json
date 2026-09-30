@@ -5,7 +5,7 @@
     "format": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "prettier --write \"*.{js,json,md}\" \"scripts/**/*.{js,mjs,json,md}\" \"docs/**/*.md\""
+        "command": "prettier --write \"*.{js,json,md}\" \"scripts/**/*.{js,mjs,json,md}\" \"tools/**/*.{js,mjs,json,md}\" \"docs/**/*.md\""
       }
     },
     "test": {
@@ -17,7 +17,7 @@
     "lint": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "eslint --cache --cache-location node_modules/.cache/eslint/ eslint.config.js vite.config.js scripts"
+        "command": "eslint --cache --cache-location node_modules/.cache/eslint/ eslint.config.js vite.config.js scripts tools"
       }
     },
     "local-registry": {

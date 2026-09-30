@@ -166,9 +166,15 @@ react-component-library/
 
 ## Adding New Components
 
-1. Create a new directory in `packages/`
-2. Add component files and configuration (use Button or Card as a template)
-3. The build and storybook scripts will automatically detect the new component
+Generate a component package with the workspace Nx generator:
+
+```bash
+npm run create-package -- --name=MyComponent
+# or: npx nx generate react-component-library:component --name=MyComponent
+```
+
+Omit `--name` to be prompted. Names must be PascalCase; the generator creates
+the component, styles, test, story, package metadata, and Nx configuration.
 
 No need to update any scripts - they dynamically read from the packages directory!
 

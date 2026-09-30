@@ -2,6 +2,7 @@
   "name": "react-component-library",
   "version": "1.0.0",
   "type": "module",
+  "generators": "./generators.json",
   "main": "index.js",
   "scripts": {
     "start": "nx run storybook:start --",
@@ -10,7 +11,7 @@
     "lint": "nx run-many -t lint --projects",
     "format": "nx run-many -t format --projects",
     "clear-cache": "nx reset",
-    "create-package": "plop --plopfile scripts/package-templates/plopfile.js",
+    "create-package": "nx generate react-component-library:component",
     "link-all": "node scripts/link.js link",
     "unlink-all": "node scripts/link.js unlink"
   },
@@ -20,6 +21,7 @@
   "description": "",
   "devDependencies": {
     "@eslint/js": "^9.39.5",
+    "@nx/devkit": "^23.2.1",
     "@nx/storybook": "^23.2.1",
     "@nx/vite": "^23.2.1",
     "@storybook/addon-docs": "^10.6.0",
@@ -36,7 +38,6 @@
     "globals": "^17.12.0",
     "jsdom": "^30.1.1",
     "nx": "^23.2.1",
-    "plop": "^4.0.5",
     "prettier": "^3.9.9",
     "sass-embedded": "^1.105.0",
     "storybook": "^10.6.0",

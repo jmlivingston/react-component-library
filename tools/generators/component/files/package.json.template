@@ -1,5 +1,5 @@
 {
-  "name": "@react-component-library/{{kebabCase name}}",
+  "name": "@react-component-library/<%= fileName %>",
   "version": "0.0.1",
   "main": "./index.js",
   "module": "./index.mjs",
@@ -9,13 +9,13 @@
       "import": "./index.mjs",
       "require": "./index.js"
     },
-    "./style.css": "./{{kebabCase name}}.css"
+    "./style.css": "./<%= fileName %>.css"
   },
   "files": [
     "index.js",
     "index.mjs",
     "index.d.ts",
-    "{{kebabCase name}}.css"
+    "<%= fileName %>.css"
   ],
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0",
