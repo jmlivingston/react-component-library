@@ -4,7 +4,7 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "storybook": "storybook dev -p 4000",
+    "start": "storybook dev -p 4000",
     "build": "storybook build"
   }
 }

@@ -5,9 +5,6 @@
 
 import { listComponentPackages } from './packageInfo.js';
 
-// Single source of truth for the Storybook dev server port, used for both "all" and per-component runs
-export const STORYBOOK_PORT = 4000;
-
 export const sharedStorybookConfig = {
   addons: ['@storybook/addon-docs'],
   framework: {

@@ -2,5 +2,19 @@
   "name": "foo",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/Foo/src",
-  "projectType": "library"
+  "projectType": "library",
+  "targets": {
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "vitest run --project @react-component-library/foo"
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "eslint --cache --cache-location node_modules/.cache/eslint/ packages/Foo"
+      }
+    }
+  }
 }

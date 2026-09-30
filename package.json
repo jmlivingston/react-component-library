@@ -4,11 +4,11 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "start": "node scripts/packageCommands.js storybook",
-    "build": "npx nx run-many -t build",
-    "test": "node scripts/packageCommands.js test",
-    "lint": "node scripts/packageCommands.js lint",
-    "prettier": "prettier --write \"**/*.{js,json,md,scss}\"",
+    "start": "nx run @react-component-library/storybook:start",
+    "build": "nx run-many -t build",
+    "test": "nx run-many -t test --projects",
+    "lint": "nx run-many -t lint --projects",
+    "format": "prettier --write \"**/*.{js,json,md,scss}\"",
     "clear-cache": "nx reset",
     "create-package": "plop --plopfile scripts/package-templates/plopfile.js",
     "link-all": "node scripts/link.js link",
@@ -20,7 +20,6 @@
   "description": "",
   "devDependencies": {
     "@eslint/js": "^9.39.5",
-    "@inquirer/prompts": "^8.7.2",
     "@nx/storybook": "^23.2.1",
     "@nx/vite": "^23.2.1",
     "@storybook/addon-docs": "^10.6.0",
@@ -47,10 +46,6 @@
   "dependencies": {
     "react": "^19.3.0",
     "react-dom": "^19.3.0"
-  },
-  "prettier": {
-    "printWidth": 120,
-    "singleQuote": true
   },
   "nx": {
     "includedScripts": []

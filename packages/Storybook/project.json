@@ -6,11 +6,10 @@
   "tags": [],
   "implicitDependencies": ["*", "!react-component-library"],
   "targets": {
-    "storybook": {
+    "start": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "storybook dev",
-        "cwd": "packages/Storybook"
+        "command": "sh -c 'npx nx storybook \"${1:-@react-component-library/storybook}\"' --"
       }
     },
     "build": {

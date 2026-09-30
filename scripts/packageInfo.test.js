@@ -1,6 +1,6 @@
 import { join } from 'path';
 import { afterEach, describe, expect, it } from 'vitest';
-import { findComponentPackage, getStorybook, listComponentPackages } from './packageInfo.js';
+import { findComponentPackage, listComponentPackages } from './packageInfo.js';
 import { componentPackage, createRepo, removeRepos, storybookPackage } from './testRepo.js';
 
 afterEach(removeRepos);
@@ -72,37 +72,5 @@ describe('findComponentPackage', () => {
   it('does not find Storybook', () => {
     const root = createMyThingRepo();
     expect(findComponentPackage('Storybook', { root })).toBeNull();
-  });
-});
-
-describe('getStorybook', () => {
-  it('returns the Storybook package', () => {
-    const root = createRepo({
-      Button: componentPackage('Button', 'button', '@react-component-library/button'),
-      Storybook: storybookPackage(),
-    });
-
-    expect(getStorybook({ root })).toMatchObject({
-      dir: 'Storybook',
-      projectName: '@react-component-library/storybook',
-      distDir: join(root, 'dist/packages/Storybook'),
-    });
-  });
-
-  it('fails when there is no Storybook', () => {
-    const root = createRepo({
-      Button: componentPackage('Button', 'button', '@react-component-library/button'),
-    });
-
-    expect(() => getStorybook({ root })).toThrow(/exactly one Storybook.*found none/);
-  });
-
-  it('fails when there are two Storybooks, naming both', () => {
-    const root = createRepo({
-      Docs: storybookPackage('Docs'),
-      Storybook: storybookPackage(),
-    });
-
-    expect(() => getStorybook({ root })).toThrow(/exactly one Storybook.*found Docs, Storybook/);
   });
 });
