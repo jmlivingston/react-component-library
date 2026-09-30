@@ -1,4 +1,4 @@
-@import '@react-component-library/css/styles.css';
+@import url('@react-component-library/css/styles.css');
 
 .button {
   padding: 0.5rem 1.5rem;

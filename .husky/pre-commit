@@ -1,4 +1,5 @@
 npx nx affected -t lint
 npx nx affected -t format
+npx nx affected -t lint-style
 git add -A
 npx nx affected -t test
