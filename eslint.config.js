@@ -11,7 +11,13 @@ export default defineConfig([
     extends: [js.configs.recommended],
   },
   {
-    files: ['*.{js,mjs}', 'scripts/**/*.js', 'packages/*/vite.config.mjs', 'packages/*/.storybook/**/*.mjs'],
+    files: [
+      '*.{js,mjs}',
+      'scripts/**/*.js',
+      'tools/**/*.js',
+      'packages/*/vite.config.mjs',
+      'packages/*/.storybook/**/*.mjs',
+    ],
     languageOptions: { globals: globals.node },
   },
   {
@@ -21,7 +27,6 @@ export default defineConfig([
     settings: { react: { version: 'detect' } },
     rules: {
       'no-console': 'error',
-      // React 19 no longer checks propTypes, so this rule would only demand dead code.
       'react/prop-types': 'off',
     },
   },

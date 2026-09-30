@@ -1,4 +1,4 @@
-import "./Card.scss";
+import './Card.css';
 
 function Card({ title, children, footer }) {
   return (

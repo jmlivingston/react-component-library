@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync } from 'fs';
+import { existsSync, readdirSync, readFileSync } from 'fs';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -39,13 +39,27 @@ export function listComponentPackages({ root = REPO_ROOT } = {}) {
     .map((pkg) => pkg.record);
 }
 
-export function getStorybook({ root = REPO_ROOT } = {}) {
-  const storybooks = readPackages(root).filter((pkg) => pkg.kind === 'application');
-  if (storybooks.length !== 1) {
-    const found = storybooks.map((pkg) => pkg.record.dir).join(', ') || 'none';
-    throw new Error(`Expected exactly one Storybook package (projectType "application"), found ${found}`);
-  }
-  return storybooks[0].record;
+export function listComponentStylesheetAliases({ root = REPO_ROOT } = {}) {
+  return Object.fromEntries(
+    listComponentPackages({ root }).flatMap(({ dir, npmName }) => {
+      const sourceDir = join(root, 'packages', dir, 'src');
+      const packageJson = readManifest(root, dir, 'package.json');
+      const rootExport = packageJson.exports?.['.'];
+      const defaultStylesheet =
+        typeof rootExport === 'string' && rootExport.endsWith('.css') ? 'styles.css' : `${dir}.css`;
+      const aliases = [[`${npmName}/style.css`, join(sourceDir, defaultStylesheet)]];
+
+      if (existsSync(sourceDir)) {
+        aliases.push(
+          ...readdirSync(sourceDir, { withFileTypes: true })
+            .filter((entry) => entry.isFile() && entry.name.endsWith('.css'))
+            .map((entry) => [`${npmName}/${entry.name}`, join(sourceDir, entry.name)]),
+        );
+      }
+
+      return aliases;
+    }),
+  );
 }
 
 export function findComponentPackage(input, { root = REPO_ROOT } = {}) {

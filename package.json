@@ -1,26 +1,29 @@
 {
-  "name": "react-component-library",
+  "name": "@react-component-library/root",
+  "private": true,
   "version": "1.0.0",
   "type": "module",
+  "generators": "./tools/generators/generators.json",
   "main": "index.js",
   "scripts": {
-    "start": "node scripts/packageCommands.js storybook",
-    "build": "node scripts/packageCommands.js build",
-    "test": "node scripts/packageCommands.js test",
-    "lint": "node scripts/packageCommands.js lint",
-    "prettier": "prettier --write \"**/*.{js,json,md,scss}\"",
+    "start": "nx run storybook:start --",
+    "build": "nx run-many -t build --projects",
+    "test": "nx run-many -t test --projects",
+    "lint": "nx run-many -t lint --projects",
+    "lint-style": "stylelint --fix \"**/*.css\"",
+    "format": "nx run-many -t format --projects",
     "clear-cache": "nx reset",
-    "create-package": "plop --plopfile scripts/package-templates/plopfile.js",
-    "link-all": "node scripts/link.js link",
-    "unlink-all": "node scripts/link.js unlink"
+    "create-component": "nx generate @react-component-library/root:component",
+    "create-css": "nx generate @react-component-library/root:css",
+    "prepare": "husky"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "John Livingston",
+  "license": "MIT",
   "description": "",
   "devDependencies": {
     "@eslint/js": "^9.39.5",
-    "@inquirer/prompts": "^8.7.2",
+    "@nx/devkit": "^23.2.1",
     "@nx/storybook": "^23.2.1",
     "@nx/vite": "^23.2.1",
     "@storybook/addon-docs": "^10.6.0",
@@ -35,12 +38,13 @@
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.1.1",
     "globals": "^17.12.0",
+    "husky": "^9.1.7",
     "jsdom": "^30.1.1",
     "nx": "^23.2.1",
-    "plop": "^4.0.5",
     "prettier": "^3.9.9",
-    "sass-embedded": "^1.105.0",
     "storybook": "^10.6.0",
+    "stylelint": "^17.15.0",
+    "stylelint-config-standard": "^40.0.0",
     "vite": "^8.3.1",
     "vitest": "^5.0.1"
   },
@@ -48,17 +52,13 @@
     "react": "^19.3.0",
     "react-dom": "^19.3.0"
   },
-  "prettier": {
-    "printWidth": 120,
-    "singleQuote": true
-  },
-  "nx": {
-    "includedScripts": []
-  },
   "allowScripts": {
     "@parcel/watcher": false,
     "esbuild": false,
     "fsevents": false,
     "nx": false
+  },
+  "nx": {
+    "includedScripts": []
   }
 }

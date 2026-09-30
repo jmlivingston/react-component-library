@@ -1,6 +1,6 @@
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'fs';
 import { tmpdir } from 'os';
-import { join } from 'path';
+import { dirname, join } from 'path';
 
 // Fixture repos are generated at runtime so Nx never discovers their project.json files.
 const roots = [];
@@ -11,10 +11,9 @@ export function createRepo(packages) {
   for (const [dir, files] of Object.entries(packages)) {
     mkdirSync(join(root, 'packages', dir), { recursive: true });
     for (const [file, contents] of Object.entries(files)) {
-      writeFileSync(
-        join(root, 'packages', dir, file),
-        typeof contents === 'string' ? contents : JSON.stringify(contents),
-      );
+      const filePath = join(root, 'packages', dir, file);
+      mkdirSync(dirname(filePath), { recursive: true });
+      writeFileSync(filePath, typeof contents === 'string' ? contents : JSON.stringify(contents));
     }
   }
   return root;
@@ -27,13 +26,20 @@ export function removeRepos() {
 export function componentPackage(dir, projectName, npmName) {
   return {
     'package.json': { name: npmName },
-    'project.json': { name: projectName, projectType: 'library', sourceRoot: `packages/${dir}/src` },
+    'project.json': {
+      name: projectName,
+      projectType: 'library',
+      sourceRoot: `packages/${dir}/src`,
+    },
   };
 }
 
 export function storybookPackage(dir = 'Storybook') {
   return {
-    'package.json': { name: '@react-component-library/storybook', private: true },
+    'package.json': {
+      name: '@react-component-library/storybook',
+      private: true,
+    },
     'project.json': {
       name: '@react-component-library/storybook',
       projectType: 'application',

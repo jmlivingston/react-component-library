@@ -3,9 +3,7 @@ import Card from './Card';
 
 describe('Card', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(
-      <Card title="Test Title">Test Content</Card>
-    );
+    const { baseElement } = render(<Card title="Test Title">Test Content</Card>);
     expect(baseElement).toBeTruthy();
   });
 });

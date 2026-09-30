@@ -3,10 +3,7 @@
  * This config is used across all component-specific and centralized Storybook instances
  */
 
-import { listComponentPackages } from './packageInfo.js';
-
-// Single source of truth for the Storybook dev server port, used for both "all" and per-component runs
-export const STORYBOOK_PORT = 4000;
+import { listComponentPackages, listComponentStylesheetAliases } from './packageInfo.js';
 
 export const sharedStorybookConfig = {
   addons: ['@storybook/addon-docs'],
@@ -25,7 +22,8 @@ export const sharedStorybookConfig = {
         ...config.resolve,
         alias: {
           ...config.resolve?.alias,
-          ...Object.fromEntries(listComponentPackages().map((pkg) => [pkg.npmName, pkg.sourceEntry])),
+          ...listComponentStylesheetAliases(),
+          ...Object.fromEntries(listComponentPackages().map(({ npmName, sourceEntry }) => [npmName, sourceEntry])),
         },
       },
     };

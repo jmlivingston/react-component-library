@@ -47,7 +47,7 @@
     }
   },
   "release": {
-    "projects": ["*", "!react-component-library", "!@react-component-library/storybook"],
+    "projects": ["*", "!react-component-library", "!storybook"],
     "version": {
       "preVersionCommand": "npx nx run-many -t build",
       "manifestRootsToUpdate": ["dist/{projectRoot}"],

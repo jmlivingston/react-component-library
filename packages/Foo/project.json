@@ -2,5 +2,33 @@
   "name": "foo",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/Foo/src",
-  "projectType": "library"
+  "projectType": "library",
+  "targets": {
+    "format": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "prettier --write .",
+        "cwd": "packages/Foo"
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "eslint --fix --cache --cache-location node_modules/.cache/eslint/ packages/Foo"
+      }
+    },
+    "lint-style": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "stylelint --fix \"**/*.css\"",
+        "cwd": "packages/Foo"
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "vitest run --project @react-component-library/foo"
+      }
+    }
+  }
 }

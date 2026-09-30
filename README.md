@@ -14,30 +14,10 @@ npm install
 
 ### Build
 
-Build components and/or Storybook static site.
-
-**Interactive Mode:**
+Build all projects with a build target, including components and Storybook:
 
 ```bash
 npm run build
-```
-
-This will present an interactive prompt where you can select:
-
-- **All** - Builds all components (Button, Card) and Storybook
-- **Button** - Builds only the Button component
-- **Card** - Builds only the Card component
-- **Storybook** - Builds the static Storybook site
-
-**Direct Mode:**
-
-> Note: Not case sensitive.
-
-```bash
-npm run build All          # Build all components and Storybook
-npm run build Button       # Build only Button
-npm run build button       # Build only button
-npm run build Storybook    # Build only Storybook static site
 ```
 
 **Build Output:**
@@ -54,76 +34,32 @@ Each component package includes:
 
 ### Storybook
 
-Run Storybook development server to view and interact with components.
-
-**Interactive Mode:**
+Start the Storybook development server:
 
 ```bash
 npm run start
 ```
 
-This will present an interactive prompt where you can select:
-
-- **All** - Runs Storybook with all components
-- **Button** - Runs Storybook for Button only (port 4000)
-- **Card** - Runs Storybook for Card only (port 4000)
-
-**Direct Mode:**
-
-> Note: Not case sensitive.
-
-```bash
-npm run start All      # All components (port 4000)
-npm run start Button   # Button only (port 4000)
-npm run start button   # Button only (port 4000)
-npm run start Card     # Card only (port 4000)
-```
-
 ### Test
 
-Run the Vitest suites.
-
-**Interactive Mode:**
+Run all Nx test targets or a single package's tests:
 
 ```bash
 npm test
+npm test button
 ```
 
-This will present an interactive prompt where you can select:
-
-- **All** - Runs every test suite (all components and scripts)
-- **Button** - Runs the Button tests only
-- **Card** - Runs the Card tests only
-- **Scripts** - Runs the build script tests only
-
-**Direct Mode:**
-
-> Note: Not case sensitive.
-
-```bash
-npm test all       # Everything
-npm test button    # Button only
-npm test scripts   # Build scripts only
-```
+Run the scripts test suite directly with `npx vitest run --config scripts/vitest.config.js`.
 
 ### Lint
 
 Run ESLint with the recommended JavaScript, React and React Hooks rules. `console` calls are errors in component code.
 
-**Interactive Mode:**
+Run all Nx lint targets or a single package:
 
 ```bash
 npm run lint
-```
-
-**Direct Mode:**
-
-> Note: Not case sensitive.
-
-```bash
-npm run lint all       # Everything
-npm run lint button    # Button only
-npm run lint scripts   # Build scripts only
+npm run lint button
 ```
 
 ## Project Structure
@@ -131,25 +67,11 @@ npm run lint scripts   # Build scripts only
 ```
 react-component-library/
 ├── packages/
-│   ├── Button/           # Button component
-│   │   ├── .storybook/   # Button-specific Storybook config
-│   │   ├── src/
-│   │   ├── package.json
-│   │   ├── project.json
-│   │   └── vite.config.mjs
-│   ├── Card/             # Card component
-│   │   ├── .storybook/   # Card-specific Storybook config
-│   │   ├── src/
-│   │   ├── package.json
-│   │   ├── project.json
-│   │   └── vite.config.mjs
-│   └── Storybook/        # Centralized Storybook
-│       ├── .storybook/   # Main Storybook config
-│       ├── package.json
-│       └── project.json
-├── scripts/              # Build and utility scripts
-│   ├── packageCommands.js
-│   └── packageInfo.js
+│   ├── Button/            # Component package
+│   ├── Card/              # Component package
+│   ├── Foo/               # Component package
+│   └── Storybook/          # Storybook application
+├── scripts/               # Build and utility scripts
 ├── dist/                 # Build output (generated)
 └── package.json
 ```
@@ -160,51 +82,53 @@ react-component-library/
 - ✅ **NX Monorepo** - Efficient build caching and task orchestration
 - ✅ **Vite** - Fast builds and HMR
 - ✅ **Storybook** - Component documentation and development
-- ✅ **Interactive CLI** - Built with inquirer for better DX
 - ✅ **Dynamic Package Discovery** - Automatically detects new components
 - ✅ **Multiple Build Formats** - ESM and CommonJS outputs
 
 ## Adding New Components
 
-1. Create a new directory in `packages/`
-2. Add component files and configuration (use Button or Card as a template)
-3. The build and storybook scripts will automatically detect the new component
+Generate a component package with the workspace Nx generator:
+
+```bash
+npm run create-component -- --name=MyComponent
+# or: npx nx generate react-component-library:component --name=MyComponent
+```
+
+Omit `--name` to be prompted. Names must be PascalCase; the generator creates
+the component, styles, test, story, package metadata, and Nx configuration.
 
 No need to update any scripts - they dynamically read from the packages directory!
 
-## Local Development with npm run link
-
-To test components in another project locally:
-
-**1. Build and link all packages:**
+Create a shared CSS package with:
 
 ```bash
-npm run build
-npm run link-all
+npm run create-css -- --name=DesignTokens
+# or: npx nx generate @react-component-library/root:css --name=DesignTokens
 ```
 
-**2. In your other project, link the packages you need:**
+Import its stylesheet from a component package to include the shared styles in
+that package's CSS build:
 
-```bash
-npm run link @react-component-library/button
-npm run link @react-component-library/card
-npm run link @react-component-library/foo
+```css
+@import '@react-component-library/design-tokens/style.css';
 ```
 
-**3. After making changes, rebuild to see updates:**
+The generated package also exposes its built stylesheet as
+`@react-component-library/design-tokens/style.css`.
+
+## Debugging in Another Project
+
+Install the built package in the consuming project, then watch and rebuild it here:
 
 ```bash
-npm run build
-```
+# In this repo
+npx nx run button:build
 
-**4. When done, unlink:**
+# In the consuming project
+npm install ../react-component-library/dist/packages/Button
 
-```bash
-# In your other project
-npm run unlink @react-component-library/button
-
-# In this project
-npm run unlink-all
+# In this repo; keep running while developing
+npx nx watch --projects=button -- nx run button:build
 ```
 
 ## Publishing
@@ -212,7 +136,19 @@ npm run unlink-all
 Each component is built as a standalone package ready for npm publishing:
 
 ```bash
-npm run build <component>
-cd dist/packages/<ComponentName>
-npm publish  # or npm run publish
+npm run build
+cd dist/packages/Button
+npm publish
 ```
+
+## TODO
+
+- add barebones vite react package we can use to test debugging
+- github actions for lint, test, etc
+- github actions for publish to npm
+- create tools for creating this and making it agnostic
+  - SPA Frameworks - React, Angular, Vue, Svelte, Solid
+  - Package managers - npm, yarn, pnpm, bun, deno
+  - CSS - CSS, SASS, Tailwind
+  - Registries - npm, github packages, jsdelivr, jspm, verdaccio, jfrog, cloudsmith, azure artifacts?
+  - Headless UI integration - react-aria, radix, shadcn, others?

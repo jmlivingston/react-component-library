@@ -1,6 +1,6 @@
 import { join } from 'path';
 import { afterEach, describe, expect, it } from 'vitest';
-import { findComponentPackage, getStorybook, listComponentPackages } from './packageInfo.js';
+import { findComponentPackage, listComponentPackages, listComponentStylesheetAliases } from './packageInfo.js';
 import { componentPackage, createRepo, removeRepos, storybookPackage } from './testRepo.js';
 
 afterEach(removeRepos);
@@ -33,7 +33,9 @@ describe('listComponentPackages', () => {
 
   it('fails naming the package when package.json is missing', () => {
     const root = createRepo({
-      Button: { 'project.json': componentPackage('Button', 'button', 'x')['project.json'] },
+      Button: {
+        'project.json': componentPackage('Button', 'button', 'x')['project.json'],
+      },
     });
 
     expect(() => listComponentPackages({ root })).toThrow(/Button.*package\.json/);
@@ -41,7 +43,10 @@ describe('listComponentPackages', () => {
 
   it('fails naming the package when project.json is invalid', () => {
     const root = createRepo({
-      Button: { ...componentPackage('Button', 'button', 'x'), 'project.json': '{ not json' },
+      Button: {
+        ...componentPackage('Button', 'button', 'x'),
+        'project.json': '{ not json',
+      },
     });
 
     expect(() => listComponentPackages({ root })).toThrow(/Button.*project\.json/);
@@ -75,34 +80,27 @@ describe('findComponentPackage', () => {
   });
 });
 
-describe('getStorybook', () => {
-  it('returns the Storybook package', () => {
+describe('listComponentStylesheetAliases', () => {
+  it('maps each package style export to its source stylesheet', () => {
     const root = createRepo({
       Button: componentPackage('Button', 'button', '@react-component-library/button'),
+      Css: {
+        ...componentPackage('Css', 'css', '@react-component-library/css'),
+        'package.json': {
+          name: '@react-component-library/css',
+          exports: { '.': './styles.css' },
+        },
+        'src/styles.css': ':root {}',
+        'src/foo.css': '.foo {}',
+      },
       Storybook: storybookPackage(),
     });
 
-    expect(getStorybook({ root })).toMatchObject({
-      dir: 'Storybook',
-      projectName: '@react-component-library/storybook',
-      distDir: join(root, 'dist/packages/Storybook'),
+    expect(listComponentStylesheetAliases({ root })).toEqual({
+      '@react-component-library/button/style.css': join(root, 'packages/Button/src/Button.css'),
+      '@react-component-library/css/style.css': join(root, 'packages/Css/src/styles.css'),
+      '@react-component-library/css/styles.css': join(root, 'packages/Css/src/styles.css'),
+      '@react-component-library/css/foo.css': join(root, 'packages/Css/src/foo.css'),
     });
-  });
-
-  it('fails when there is no Storybook', () => {
-    const root = createRepo({
-      Button: componentPackage('Button', 'button', '@react-component-library/button'),
-    });
-
-    expect(() => getStorybook({ root })).toThrow(/exactly one Storybook.*found none/);
-  });
-
-  it('fails when there are two Storybooks, naming both', () => {
-    const root = createRepo({
-      Docs: storybookPackage('Docs'),
-      Storybook: storybookPackage(),
-    });
-
-    expect(() => getStorybook({ root })).toThrow(/exactly one Storybook.*found Docs, Storybook/);
   });
 });
