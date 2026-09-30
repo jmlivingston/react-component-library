@@ -11,9 +11,7 @@
     "lint": "nx run-many -t lint --projects",
     "format": "nx run-many -t format --projects",
     "clear-cache": "nx reset",
-    "create-package": "nx generate react-component-library:component",
-    "link-all": "node scripts/link.js link",
-    "unlink-all": "node scripts/link.js unlink"
+    "create": "nx generate react-component-library:component"
   },
   "keywords": [],
   "author": "John Livingston",

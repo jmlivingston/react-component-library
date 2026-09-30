@@ -178,41 +178,6 @@ the component, styles, test, story, package metadata, and Nx configuration.
 
 No need to update any scripts - they dynamically read from the packages directory!
 
-## Local Development with npm run link
-
-To test components in another project locally:
-
-**1. Build and link all packages:**
-
-```bash
-npm run build
-npm run link-all
-```
-
-**2. In your other project, link the packages you need:**
-
-```bash
-npm run link @react-component-library/button
-npm run link @react-component-library/card
-npm run link @react-component-library/foo
-```
-
-**3. After making changes, rebuild to see updates:**
-
-```bash
-npm run build
-```
-
-**4. When done, unlink:**
-
-```bash
-# In your other project
-npm run unlink @react-component-library/button
-
-# In this project
-npm run unlink-all
-```
-
 ## Publishing
 
 Each component is built as a standalone package ready for npm publishing:
